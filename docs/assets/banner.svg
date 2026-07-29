@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+  <title id="title">Izmir Urban Heat Exposure</title>
+  <desc id="desc">An abstract urban landscape with thermal gradient showing LCZ-based heat exposure analysis.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c1929"/>
+      <stop offset=".45" stop-color="#1a3a4a"/>
+      <stop offset="1" stop-color="#2d1a15"/>
+    </linearGradient>
+    <linearGradient id="thermal" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#2ecc71" stop-opacity=".12"/>
+      <stop offset=".35" stop-color="#f1c40f" stop-opacity=".28"/>
+      <stop offset=".65" stop-color="#e67e22" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#e74c3c" stop-opacity=".48"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="10"/></filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffaa66" stroke-opacity=".06"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="320" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="320" rx="24" fill="url(#grid)"/>
+  <path d="M200 270v-45h18v45h14v-62h16v62h14v-38h18v38h16v-74h14v74h18v-52h16v52h20v-68h14v68h22v-48h18v48h20v-58h16v58h18v-42h16v42h22v-65h18v65h20v-50h16v50h18v-38h14v38h20v-55h16v55h18v-44h14v44h16v-62h18v62h14v-35h16v35h18v-28h16v28h12v270H200Z" fill="#1a2d3a" opacity=".7"/>
+  <path d="M200 270v-45h18v45h14v-62h16v62h14v-38h18v38h16v-74h14v74h18v-52h16v52h20v-68h14v68h22v-48h18v48h20v-58h16v58h18v-42h16v42h22v-65h18v65h20v-50h16v50h18v-38h14v38h20v-55h16v55h18v-44h14v44h16v-62h18v62h14v-35h16v35h18v-28h16v28h12" fill="none" stroke="#e67e22" stroke-opacity=".22" stroke-width="1.5"/>
+  <path d="M560 306C631 260 641 201 717 184c81-18 98 31 164-8 59-35 69-95 137-116 61-19 118 2 182-44v270H560Z" fill="url(#thermal)"/>
+  <g transform="translate(680 290)">
+    <ellipse cx="0" cy="-60" rx="180" ry="70" fill="#e74c3c" opacity=".06" filter="url(#glow)"/>
+    <ellipse cx="0" cy="-60" rx="130" ry="50" fill="none" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="6 8" opacity=".65"/>
+    <ellipse cx="0" cy="-60" rx="85" ry="32" fill="none" stroke="#e67e22" stroke-width="1.5" opacity=".55"/>
+    <ellipse cx="0" cy="-60" rx="42" ry="16" fill="none" stroke="#e74c3c" stroke-width="1.5" opacity=".60"/>
+  </g>
+  <g fill="#f39c12" opacity=".45">
+    <circle cx="490" cy="185" r="3"/><circle cx="520" cy="162" r="2.5"/><circle cx="555" cy="175" r="3.5"/>
+    <circle cx="585" cy="155" r="2"/><circle cx="610" cy="188" r="3"/><circle cx="640" cy="145" r="2.5"/>
+    <circle cx="665" cy="170" r="3"/><circle cx="695" cy="158" r="2"/><circle cx="720" cy="190" r="3.5"/>
+    <circle cx="750" cy="148" r="2.5"/><circle cx="780" cy="165" r="3"/><circle cx="810" cy="180" r="2"/>
+  </g>
+  <g fill="none" stroke-width="1.3">
+    <path d="M340 180Q480 110 620 155T900 140" stroke="#f1c40f" stroke-opacity=".28"/>
+    <path d="M320 200Q470 140 610 180T920 165" stroke="#e67e22" stroke-opacity=".22"/>
+    <path d="M310 225Q460 175 600 210T930 195" stroke="#e74c3c" stroke-opacity=".18"/>
+  </g>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif" fill="#fdf8f5">
+    <text x="64" y="93" font-size="18" letter-spacing="5" fill="#f39c12">OPEN RESEARCH COMPANION</text>
+    <text x="64" y="157" font-size="48" font-weight="750">Mapping Urban Heat</text>
+    <text x="64" y="210" font-size="48" font-weight="750">Exposure across LCZs</text>
+    <text x="67" y="258" font-size="20" fill="#e8d5c8">Cloud-local data cube · multi-scale MGWR · heat-justice planning</text>
+  </g>
+  <g transform="translate(64 282)" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">
+    <circle cx="5" cy="-4" r="5" fill="#2ecc71"/><text x="18" fill="#c8d8dc">COOL ISLANDS</text>
+    <circle cx="148" cy="-4" r="5" fill="#f1c40f"/><text x="161" fill="#c8d8dc">MODERATE</text>
+    <circle cx="272" cy="-4" r="5" fill="#e67e22"/><text x="285" fill="#c8d8dc">WARM</text>
+    <circle cx="370" cy="-4" r="5" fill="#e74c3c"/><text x="383" fill="#c8d8dc">HOT SPOTS</text>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+name: Method Question
+description: Ask about the methods, model choices, or analytical decisions.
+labels: [question]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: What have you already checked?
+      placeholder: e.g. I read docs/methods.md section on MGWR bandwidth selection but...

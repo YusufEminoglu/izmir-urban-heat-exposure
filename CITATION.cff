@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use this software or its methods, please cite the accompanying article."
+type: software
+title: "Izmir Urban Heat Exposure: LCZ-Based Modelling and Multi-Scale Spatially Varying Regression for Heat-Vulnerability Planning"
+version: 1.0.0
+date-released: 2026-07-29
+license: MIT
+repository-code: "https://github.com/YusufEminoglu/izmir-urban-heat-exposure"
+url: "https://yusufeminoglu.github.io/izmir-urban-heat-exposure/"
+abstract: "Open research companion for mapping daytime urban heat exposure across Local Climate Zones using a cloud-local data cube, multi-scale geographically weighted regression, and neighbourhood-level heat-justice planning in Izmir, Turkiye."
+authors:
+  - family-names: "Eminoglu"
+    given-names: "Yusuf"
+    orcid: "https://orcid.org/0009-0005-6000-2934"
+    affiliation: "Department of City and Regional Planning, Dokuz Eylul University"
+    email: "yusuf.eminoglu@deu.edu.tr"
+  - family-names: "Cubukcu"
+    given-names: "Kemal Mert"
+    orcid: "https://orcid.org/0000-0003-3604-7014"
+    affiliation: "Department of City and Regional Planning, Dokuz Eylul University"
+keywords:
+  - urban heat island
+  - local climate zones
+  - geographically weighted regression
+  - climate justice
+  - Google Earth Engine
+  - reproducible research
+  - Izmir
+  - Turkiye
+preferred-citation:
+  type: article
+  title: "Mapping urban heat exposure across local climate zones for heat-vulnerability planning in Izmir, Turkiye"
+  authors:
+    - family-names: "Eminoglu"
+      given-names: "Yusuf"
+      orcid: "https://orcid.org/0009-0005-6000-2934"
+    - family-names: "Cubukcu"
+      given-names: "Kemal Mert"
+      orcid: "https://orcid.org/0000-0003-3604-7014"
+  journal: "Cities"
+  publisher:
+    name: "Elsevier"
+  year: 2026
+  notes: "Manuscript under review; DOI pending acceptance."

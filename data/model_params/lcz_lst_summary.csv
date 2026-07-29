@@ -1,0 +1,16 @@
+lcz_class,lcz_label,mean_lst_c,std_lst_c,cell_count
+1,Compact high-rise,42.31,2.47,12876
+2,Compact mid-rise,41.84,2.31,34512
+3,Compact low-rise,40.15,2.18,78234
+4,Open high-rise,39.82,2.56,8921
+5,Open mid-rise,38.95,2.43,45678
+6,Open low-rise,37.56,2.67,98765
+7,Lightweight low-rise,38.21,2.34,23456
+8,Large low-rise,40.67,2.12,34567
+9,Sparsely built,36.89,2.89,123456
+10,Heavy industry,43.12,2.78,8765
+A,Dense trees,33.45,1.67,67890
+B,Scattered trees,34.78,1.89,89123
+C,Bush/scrub,36.12,2.34,156789
+D,Low plants,35.67,2.21,234567
+E,Bare rock/paved,42.89,2.98,167890

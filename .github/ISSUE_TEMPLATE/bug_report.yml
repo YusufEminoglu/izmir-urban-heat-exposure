@@ -1,0 +1,35 @@
+name: Bug Report
+description: Report a reproducibility problem, incorrect output, or broken script.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the repository. If you are reporting a security-sensitive issue, use the contact in SECURITY.md instead.
+  - type: input
+    id: script
+    attributes:
+      label: Which script or file?
+      placeholder: e.g. src/p1_07_baseline_ols.py
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        Python 3.12, Ubuntu 24.04
+        rasterio==1.4.x, mgwr==2.2.x
+        WUDAPT LCZ downloaded 2026-07

@@ -1,0 +1,29 @@
+{
+  "title": "Izmir Urban Heat Exposure: LCZ-Based Modelling and Multi-Scale Spatially Varying Regression for Heat-Vulnerability Planning",
+  "creators": [
+    {
+      "name": "Eminoglu, Yusuf",
+      "orcid": "0009-0005-6000-2934",
+      "affiliation": "Department of City and Regional Planning, Dokuz Eylul University"
+    },
+    {
+      "name": "Cubukcu, Kemal Mert",
+      "orcid": "0000-0003-3604-7014",
+      "affiliation": "Department of City and Regional Planning, Dokuz Eylul University"
+    }
+  ],
+  "description": "Open research companion for mapping daytime urban heat exposure across Local Climate Zones using a cloud-local data cube, multi-scale geographically weighted regression, and neighbourhood-level heat-justice planning in Izmir, Turkiye.",
+  "keywords": [
+    "urban heat island",
+    "local climate zones",
+    "geographically weighted regression",
+    "climate justice",
+    "Google Earth Engine",
+    "reproducible research",
+    "Izmir",
+    "Turkiye"
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "access_right": "open"
+}

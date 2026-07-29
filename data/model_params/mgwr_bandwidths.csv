@@ -1,0 +1,8 @@
+predictor,bandwidth_neighbors,bandwidth_type
+ndvi,87,local
+ndbi,92,local
+albedo,345,regional
+elevation,1187717,global
+slope,1187717,global
+tree_canopy_height,412,regional
+lcz_built_fraction,389,regional

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Open research companion for mapping daytime urban heat exposure across Local Climate Zones with multi-scale MGWR and heat-justice planning in Izmir, Turkiye.">
+  <meta name="theme-color" content="#0c1929">
+  <title>Izmir Urban Heat Exposure</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x1F321;</text></svg>">
+  <link rel="stylesheet" href="assets/style.css">
+  <script defer src="assets/site.js"></script>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="scroll-progress"></span></div>
+  <header class="site-header">
+    <a class="brand" href="#top"><span class="brand-mark">IZ</span><span>Urban Heat</span></a>
+    <nav aria-label="Primary">
+      <a href="#findings">Findings</a><a href="#pipeline">Pipeline</a><a href="#explorer">Explorer</a><a href="#atlas">Atlas</a><a href="#authors">Authors</a>
+      <a class="nav-cta" href="reproducibility.md">Reproduce</a>
+    </nav>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="aurora" aria-hidden="true"></div>
+      <div class="hero-copy reveal">
+        <p class="eyebrow">OPEN RESEARCH · IZMIR · 100 M GRID</p>
+        <h1>When urban form <em>structures heat</em></h1>
+        <p class="lede">A cloud-local data cube links Landsat summer LST to Local Climate Zones, multi-scale geographically weighted regression, and neighbourhood-level heat-justice planning across western Turkiye.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#findings">Explore the evidence <span>&darr;</span></a>
+          <a class="button ghost" href="methods.md">Read the methods</a>
+        </div>
+        <p class="status"><span></span> Manuscript under review at Cities · code and authored figures open</p>
+      </div>
+      <figure class="hero-visual reveal">
+        <img src="figures/png/fig09_mahalle_heat_justice_priority.png" alt="Mahalle heat-justice priority surface">
+        <figcaption>MGWR-informed mahalle priority surface: translating spatial coefficient evidence to planning units.</figcaption>
+      </figure>
+    </section>
+    <section class="metrics" aria-label="Headline findings">
+      <article class="metric reveal"><b data-count="15">0</b><span>LCZ classes represented</span></article>
+      <article class="metric reveal"><b data-count="0.349" data-decimals="3">0</b><span>LCZ thermal differentiation eta-squared</span></article>
+      <article class="metric reveal"><b data-count="0.880" data-decimals="3">0</b><span>MGWR sample fit R-squared</span></article>
+      <article class="metric reveal"><b data-count="-0.091" data-decimals="3">0</b><span>MGWR residual Moran's I</span></article>
+      <article class="metric reveal"><b data-count="1187717" data-prefix="">0</b><span>valid 100 m grid cells</span></article>
+    </section>
+    <section id="findings" class="split-section">
+      <div class="section-copy reveal">
+        <p class="eyebrow">THE THERMAL LANDSCAPE</p>
+        <h2>LCZ classes strongly structure daytime heat</h2>
+        <p>Fifteen WUDAPT Local Climate Zones are populated across the Izmir metropolitan area. LCZ class alone explains <strong>34.9%</strong> of summer daytime LST variance (Kruskal-Wallis eta-squared = 0.349).</p>
+        <p>A physical-environmental OLS model captures 69.9% of LST variance, but the residual Moran's <em>I</em> of 0.811 reveals substantial spatial structure that global models cannot address. Multi-scale MGWR raises <em>R</em> squared to 0.880 and drives residual autocorrelation to near zero.</p>
+        <a class="text-link" href="methods.md">Methods, assumptions, and limitations &rarr;</a>
+      </div>
+      <figure class="framed-figure reveal">
+        <img src="figures/png/fig04_lcz_thermal_differentiation.png" alt="LCZ thermal differentiation">
+        <figcaption>LCZ classes show distinct and well-separated daytime LST distributions.</figcaption>
+      </figure>
+    </section>
+    <section id="pipeline" class="pipeline-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">ONE HARMONISED 100 M GRID</p>
+        <h2>An inspectable chain from pixels to planning</h2>
+      </div>
+      <div class="pipeline">
+        <article class="stage reveal"><span>01</span><i>OBSERVE</i><h3>Cloud-local data cube</h3><p>Landsat summer LST, spectral indices, albedo, and terrain controls aligned to 100 m.</p></article>
+        <article class="stage reveal"><span>02</span><i>CLASSIFY</i><h3>LCZ morphology</h3><p>WUDAPT Local Climate Zones, CORINE, Meta canopy height, and DSM morphology.</p></article>
+        <article class="stage reveal"><span>03</span><i>MODEL</i><h3>OLS to MGWR</h3><p>Global OLS with VIF diagnostics, residual Moran testing, and multi-scale MGWR.</p></article>
+        <article class="stage reveal"><span>04</span><i>MAP</i><h3>Coefficient atlas</h3><p>Where does NDVI cool? Where does albedo matter? Spatially varying coefficient surfaces.</p></article>
+        <article class="stage reveal"><span>05</span><i>ACT</i><h3>Mahalle priority</h3><p>Bivariate Moran heat-vulnerability overlap and MGWR-informed planning priority surface.</p></article>
+      </div>
+    </section>
+    <section id="explorer" class="explorer-section">
+      <div class="section-heading reveal"><p class="eyebrow">KEY MODEL RESULTS</p><h2>Global patterns. Local drivers.</h2></div>
+      <div class="explorer-grid">
+        <div class="scenario-card reveal">
+          <p class="eyebrow">MODEL COMPARISON</p>
+          <p>The OLS model explains 69.9% of LST variance but leaves strong residual spatial structure. MGWR improves fit and resolves local heterogeneity.</p>
+          <div class="scenario-number">0.880<small> R-squared</small></div>
+          <p>MGWR sample fit &mdash; an 18.1 percentage-point gain over OLS</p>
+          <div class="risk-track"><span style="width:88%"></span></div>
+          <dl>
+            <div><dt>OLS R-squared</dt><dd>0.699</dd></div>
+            <div><dt>OLS Moran's I</dt><dd>0.811</dd></div>
+            <div><dt>MGWR Moran's I</dt><dd>&minus;0.091</dd></div>
+            <div><dt>Max local CN</dt><dd>&lt; 30</dd></div>
+          </dl>
+        </div>
+        <figure class="scenario-map reveal">
+          <img src="figures/png/fig07_mgwr_coefficient_atlas.png" alt="MGWR coefficient atlas">
+          <figcaption>NDVI, NDBI, and albedo effects vary substantially across space and scale.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section id="atlas" class="atlas-section">
+      <div class="section-heading reveal"><p class="eyebrow">VISUAL ATLAS</p><h2>Nine figures, one spatial argument</h2></div>
+      <div class="gallery">
+        <button class="gallery-item wide reveal" data-full="figures/png/fig02_study_area_data_stack.png"><img src="figures/png/fig02_study_area_data_stack.png" alt="Study area"><span>02 · Study area</span></button>
+        <button class="gallery-item reveal" data-full="figures/png/fig03_cloud_local_lst_datacube.png"><img src="figures/png/fig03_cloud_local_lst_datacube.png" alt="LST cube"><span>03 · LST cube</span></button>
+        <button class="gallery-item reveal" data-full="figures/png/fig05_bivariate_hex_heat_vegetation.png"><img src="figures/png/fig05_bivariate_hex_heat_vegetation.png" alt="Heat-vegetation"><span>05 · Heat-vegetation</span></button>
+        <button class="gallery-item wide reveal" data-full="figures/png/fig06_baseline_model_diagnostics.png"><img src="figures/png/fig06_baseline_model_diagnostics.png" alt="Diagnostics"><span>06 · Diagnostics</span></button>
+        <button class="gallery-item reveal" data-full="figures/png/fig08_heat_justice_sociodemographic_synthesis.png"><img src="figures/png/fig08_heat_justice_sociodemographic_synthesis.png" alt="Heat justice"><span>08 · Heat justice</span></button>
+        <button class="gallery-item reveal" data-full="figures/png/fig01_conceptual_framework.png"><img src="figures/png/fig01_conceptual_framework.png" alt="Framework"><span>01 · Framework</span></button>
+      </div>
+    </section>
+    <section id="authors" class="authors-section">
+      <div class="section-heading reveal"><p class="eyebrow">RESEARCH TEAM</p><h2>Authors and persistent identities</h2></div>
+      <div class="author-grid">
+        <article class="author-card reveal">
+          <div class="author-monogram">YE</div>
+          <div>
+            <p class="author-role">CORRESPONDING AUTHOR</p>
+            <h3>Yusuf Eminoglu</h3>
+            <p>Department of City and Regional Planning, Dokuz Eylul University</p>
+            <div class="profile-pills">
+              <a href="https://orcid.org/0009-0005-6000-2934">ORCID</a><a href="https://github.com/YusufEminoglu">GitHub</a><a href="https://avesis.deu.edu.tr/yusuf.eminoglu">AVESIS</a><a href="https://www.researchgate.net/profile/Yusuf-Eminoglu?ev=hdr_xprf">ResearchGate</a>
+            </div>
+          </div>
+        </article>
+        <article class="author-card reveal">
+          <div class="author-monogram alt">KC</div>
+          <div>
+            <p class="author-role">CO-AUTHOR</p>
+            <h3>Kemal Mert Cubukcu</h3>
+            <p>Department of City and Regional Planning, Dokuz Eylul University</p>
+            <div class="profile-pills">
+              <a href="https://orcid.org/0000-0003-3604-7014">ORCID</a><a href="https://avesis.deu.edu.tr/mert.cubukcu">AVESIS</a><a href="https://www.researchgate.net/profile/K-Mert-Cubukcu">ResearchGate</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="open-section reveal">
+      <div><p class="eyebrow">OPEN, WITH A CLEAR BOUNDARY</p><h2>Reproducible does not mean redistributing everything</h2></div>
+      <p>Code, authored figures, model parameters, provenance links, and automated publication checks are open. Third-party geospatial inputs stay with their providers.</p>
+      <div class="open-links">
+        <a href="data_sources.md">Data provenance</a><a href="reproducibility.md">Run guide</a><a href="CITATION.cff">Citation metadata</a><a href=".zenodo.json">Zenodo metadata</a>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div><strong>Izmir Urban Heat Exposure</strong><br><span><a href="https://orcid.org/0009-0005-6000-2934">Yusuf Eminoglu</a> · <a href="https://orcid.org/0000-0003-3604-7014">Kemal Mert Cubukcu</a></span></div>
+    <p>Code: MIT · Figures and documentation: CC BY 4.0<br>Dokuz Eylul University · Izmir, Turkiye</p>
+  </footer>
+  <dialog id="lightbox"><button id="lightbox-close" aria-label="Close">&times;</button><img id="lightbox-image" alt=""></dialog>
+</body>
+</html>
