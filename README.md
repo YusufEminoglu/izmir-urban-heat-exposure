@@ -14,15 +14,15 @@
 
 This is the open research companion to a study of how urban form, vegetation, and social vulnerability structure daytime summer heat exposure across Izmir, Turkiye. It connects a cloud-local Landsat data cube to Local Climate Zone (LCZ) morphology, tests global and multi-scale spatially varying regression models, and translates the evidence into neighbourhood-level heat-justice planning priorities.
 
-> The manuscript is under review at *Cities*. No article DOI has been assigned. This repository contains code, author-created figures, and compact parameter tables — not the manuscript, publisher PDF, or third-party geospatial data.
+> The manuscript is in revision (R1) at *Cities*. No article DOI has been assigned. Values below are those of the revised manuscript. This repository contains code, author-created figures, and compact parameter tables — not the manuscript, publisher PDF, or third-party geospatial data.
 
 <table>
   <tr>
     <td align="center"><strong>15</strong><br><sub>LCZ classes represented</sub></td>
-    <td align="center"><strong>&eta;&sup2; = 0.349</strong><br><sub>LCZ thermal differentiation</sub></td>
-    <td align="center"><strong>R&sup2; = 0.880</strong><br><sub>MGWR sample fit</sub></td>
-    <td align="center"><strong>I = &minus;0.091</strong><br><sub>MGWR residual autocorrelation</sub></td>
-    <td align="center"><strong>1,187,717</strong><br><sub>valid 100 m grid cells</sub></td>
+    <td align="center"><strong>&eta;&sup2; = 0.373</strong><br><sub>LCZ thermal differentiation</sub></td>
+    <td align="center"><strong>R&sup2; = 0.839</strong><br><sub>MGWR grid hold-out</sub></td>
+    <td align="center"><strong>I = &minus;0.079</strong><br><sub>MGWR residual autocorrelation</sub></td>
+    <td align="center"><strong>1,197,430</strong><br><sub>100 m province grid cells</sub></td>
   </tr>
 </table>
 
@@ -34,12 +34,12 @@ This is the open research companion to a study of how urban form, vegetation, an
 
 The scientific contribution is not another single-city heat map. It is the explicit coupling of LCZ-defined urban morphology, a cloud-local data cube that leaves no proprietary dependency, multi-scale spatially varying regression that isolates *where* each heat driver matters most, and an administratively legible mahalle-level priority surface that connects remote-sensing evidence to planning decisions.
 
-- Fifteen WUDAPT Local Climate Zones are populated across the Izmir metropolitan area, and LCZ class alone explains 34.9% of summer daytime LST variance.
-- A physical-environmental OLS model captures 69.9% of LST variance, but the residual Moran's *I* of 0.811 confirms that global models mask substantial spatial structure.
-- Multi-scale MGWR assigns each predictor its own spatial bandwidth and raises the sample fit to *R*&sup2; = 0.880 while driving residual spatial autocorrelation to near zero (*I* = &minus;0.091).
-- Local condition numbers remain below 30, confirming a well-behaved local model.
-- NDVI, NDBI, and albedo coefficients vary substantially across space and scale, revealing zone-specific cooling potentials: canopy in low-rise residential, albedo in industrial.
-- Mahalle-level bivariate Moran testing shows that daytime heat&ndash;vulnerability overlap is spatially mixed rather than uniformly positive, and an MGWR-informed mahalle priority surface identifies actionable intervention zones.
+- Fourteen WUDAPT LCZ types are mapped across Izmir Province. LCZ class explains &eta;&sup2; = 0.373 of 2025 summer daytime LST variance, and compact LCZ 2&ndash;3 fabric is 8.51 &deg;C warmer than dense tree cover.
+- The LCZ thermal ordering is nearly the same in all thirteen summers of the 2014&ndash;2026 Landsat cube (Kendall's *W* = 0.970); 2025 is the second warmest of these summers.
+- A global OLS benchmark explains 78.2% of LST variance but leaves strongly autocorrelated residuals (Moran's *I* = 0.724).
+- MGWR on a 4,000-cell calibration sample (bandwidths: intercept 20, NDVI 89, NDBI 1,071, albedo 101 neighbours) fits *R*&sup2; = 0.900 with residual *I* = &minus;0.079 and predicts the 1,193,379 grid cells outside its sample with *R*&sup2; = 0.839. Under 10 km spatial block cross-validation it explains 0.737 of held-out variance against 0.616 for OLS with the same predictors, while a global OLS with terrain, canopy and LCZ controls reaches 0.791, so the local model is read as a descriptive rather than a transferable predictive tool.
+- Across independent samples the built and dry-surface (NDBI) warming relationship is positive almost everywhere, whereas the vegetation relationship is weak and its local map is not reproducible across samples.
+- Mahalle-level heat&ndash;vulnerability overlap is spatially mixed. A screening index combining observed heat, the MGWR-based surface-heat term, demographic sensitivity and population ranks the mahalle holding 97.3% of the provincial population; it is a hazard-led screening layer that has not been validated against heat-health outcomes.
 
 ## The analytical chain
 
@@ -75,6 +75,10 @@ python scripts/publication_audit.py
 
 For Earth Engine exports, copy `.env.example` to your own untracked environment configuration and set `EE_PROJECT` and `GEE_DRIVE_FOLDER`. Then follow the staged recipe in [docs/reproducibility.md](docs/reproducibility.md).
 
+### Revision (R1) analyses
+
+`r1/analysis/` holds the scripts of the revision: LCZ uncertainty and temporal consistency (2014&ndash;2026 cube), building-inventory validation, MGWR stability, hold-out and spatial cross-validation, model comparison, priority-index alternatives and the province-grid completion. Each script writes its numbers to `outputs/values/<script>.csv`; `common.py` sets the data paths. Earth Engine scripts read the project from the `EE_PROJECT` environment variable. `r1/mgwr_run/` is the MGWR fit. The processed analysis grid and model outputs these scripts read will be released with the article.
+
 Third-party rasters are deliberately absent. [docs/data_sources.md](docs/data_sources.md) links each provider and records the redistribution boundary.
 
 ## Repository map
@@ -82,8 +86,9 @@ Third-party rasters are deliberately absent. [docs/data_sources.md](docs/data_so
 ~~~text
 izmir-urban-heat-exposure/
 ├── src/                    analysis, GEE export, figure, and table code
+├── r1/                     revision (R1) analyses: every value of the revised manuscript
 ├── data/model_params/      versioned author-created model parameters
-├── figures/png/            nine final author-generated figures
+├── figures/png/            the eleven manuscript figures (order in figures/figure_order.csv)
 ├── scripts/                metadata validation and pre-publication audit
 ├── docs/                   methods, provenance, reproducibility, project site
 ├── CITATION.cff            software and preferred article citation metadata
@@ -101,6 +106,10 @@ izmir-urban-heat-exposure/
 | Baseline model diagnostics | MGWR coefficient atlas |
 |---|---|
 | [![Baseline diagnostics](figures/png/fig06_baseline_model_diagnostics.png)](figures/png/fig06_baseline_model_diagnostics.png) | [![MGWR atlas](figures/png/fig07_mgwr_coefficient_atlas.png)](figures/png/fig07_mgwr_coefficient_atlas.png) |
+
+| LCZ evidence and temporal consistency | MGWR validation and stability |
+|---|---|
+| [![LCZ consistency](figures/png/fig05_lcz_evidence_consistency.png)](figures/png/fig05_lcz_evidence_consistency.png) | [![MGWR validation](figures/png/fig09_mgwr_validation_stability.png)](figures/png/fig09_mgwr_validation_stability.png) |
 
 | Heat-justice synthesis | Mahalle priority surface |
 |---|---|

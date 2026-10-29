@@ -85,8 +85,8 @@ def main() -> None:
                 failures.append(f"{label}: {relative}:{line}")
 
     pngs = list((ROOT / "figures" / "png").glob("fig*.png"))
-    if len(pngs) != 9:
-        failures.append(f"expected 9 authored figures, found {len(pngs)}")
+    if len(pngs) != 11:
+        failures.append(f"expected 11 authored figures, found {len(pngs)}")
 
     if failures:
         print("Publication audit failed:")

@@ -1,8 +1,5 @@
-predictor,bandwidth_neighbors,bandwidth_type
-ndvi,87,local
-ndbi,92,local
-albedo,345,regional
-elevation,1187717,global
-slope,1187717,global
-tree_canopy_height,412,regional
-lcz_built_fraction,389,regional
+term,bandwidth_neighbours,calibration_sample
+intercept,20,4000
+ndvi,89,4000
+ndbi,1071,4000
+albedo,101,4000

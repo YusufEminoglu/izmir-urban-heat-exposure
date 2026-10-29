@@ -8,7 +8,7 @@ a technical companion, not a replacement for the peer-reviewed article.
 The study covers Izmir Province in western Turkiye. Continuous layers are
 harmonised to a 100 m reference grid in EPSG:32635 using bilinear resampling;
 categorical layers use nearest-neighbour resampling. The final analysis grid
-holds 1,187,717 valid cells.
+holds 1,197,430 cells (1,197,379 with complete covariates).
 
 ## Stage I — cloud-local data cube
 
@@ -28,8 +28,8 @@ Relevant implementation:
 
 ## Stage II — LCZ and morphological controls
 
-WUDAPT Local Climate Zones are resampled to 100 m. Fifteen LCZ classes are
-populated in the study area. CORINE land cover, GLC-FCS30D land-cover
+WUDAPT Local Climate Zones are resampled to 100 m. Fourteen LCZ types are
+mapped in the study area. CORINE land cover, GLC-FCS30D land-cover
 trajectory, Meta tree canopy height, and DSM-derived morphology provide
 complementary urban-form descriptors.
 
@@ -54,20 +54,18 @@ Relevant implementation:
 
 ## Stage IV — multi-scale geographically weighted regression (MGWR)
 
-MGWR assigns each predictor its own spatial bandwidth, allowing locally varying
-relationships. The model uses an adaptive bisquare kernel with golden-section
-bandwidth search. Local condition numbers remain below 30 across the study
-area, confirming a well-behaved local model.
+MGWR assigns each term its own spatial bandwidth, allowing locally varying
+relationships. The revised model has a local intercept and NDVI, NDBI and albedo
+terms, an adaptive bisquare kernel and golden-section bandwidth search, fitted on
+a stratified 4,000-cell sample; a repeat from global starting values reaches a
+higher AICc (3931.6 against 3919.8), so the reported solution is retained.
 
-| Predictor | Bandwidth (nearest neighbours) |
+| Term | Bandwidth (nearest neighbours) |
 |---|---|
-| NDVI | Local (narrow) |
-| NDBI | Local (narrow) |
-| Albedo | Regional (moderate) |
-| Elevation | Global (wide) |
-| Slope | Global (wide) |
-| Tree canopy height | Regional (moderate) |
-| LCZ-built fraction | Regional (moderate) |
+| Intercept | 20 |
+| NDVI | 89 |
+| NDBI | 1,071 |
+| Albedo | 101 |
 
 Relevant implementation:
 
@@ -92,9 +90,9 @@ Relevant implementation:
 
 ## Validation and robustness
 
-- LCZ thermal differentiation: Kruskal-Wallis H(14) = 414,512.0, p < 0.001, eta-squared = 0.349.
-- OLS: R-squared = 0.699, all VIF < 5, residual Moran's I = 0.811.
-- MGWR: R-squared = 0.880, residual Moran's I = -0.091, all local CN < 30.
+- LCZ thermal differentiation: Kruskal-Wallis H = 446,302.8, p < 0.001, eta-squared = 0.373; the ordering holds in all thirteen summers 2014-2026 (Kendall's W = 0.970).
+- OLS: adjusted R-squared = 0.782, maximum VIF = 6.96, residual Moran's I = 0.724.
+- MGWR: R-squared = 0.900 (sample), residual Moran's I = -0.079; grid hold-out R-squared = 0.839; 10 km block cross-validation 0.737 (OLS with the same predictors 0.616, full global OLS 0.791).
 - Spatial error and spatial lag models were also estimated as supplementary diagnostics.
 
 ## Determinism

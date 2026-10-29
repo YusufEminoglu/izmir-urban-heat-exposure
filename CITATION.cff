@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this software or its methods, please cite the accompanying article."
 type: software
 title: "Izmir Urban Heat Exposure: LCZ-Based Modelling and Multi-Scale Spatially Varying Regression for Heat-Vulnerability Planning"
-version: 1.0.0
-date-released: 2026-07-29
+version: 1.1.0
+date-released: 2026-10-29
 license: MIT
 repository-code: "https://github.com/YusufEminoglu/izmir-urban-heat-exposure"
 url: "https://yusufeminoglu.github.io/izmir-urban-heat-exposure/"

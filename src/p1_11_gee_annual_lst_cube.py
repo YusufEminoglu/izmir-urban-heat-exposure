@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.paper1_climate_justice.p1_04_gee_lst_summer import add_landsat_variables, qa_mask_landsat_l2  # noqa: E402
+from p1_04_gee_lst_summer import add_landsat_variables, qa_mask_landsat_l2  # noqa: E402
 from _config import GEE_PROJECT, DATA_INTERIM, DATA_PROCESSED, TABLES_DIR, ensure_dirs  # noqa: E402
 from _config import get_logger  # noqa: E402
 
