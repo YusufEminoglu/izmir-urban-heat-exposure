@@ -245,11 +245,12 @@ def _add_panel_a_furniture(ax, x_frac: float = 0.08, y_frac: float = 0.11) -> No
         fontsize=6.8,
         lw=0.65,
     )
+    x0_, x1_ = ax.get_xlim()  # true-scale bar: 20 km as a fraction of the map's x-range (equal aspect, box)
     _add_soft_segmented_scale_bar(
         ax,
         x_frac=x_frac,
         y_frac=y_frac - 0.005,
-        width_frac=0.20,
+        width_frac=20000.0 / abs(x1_ - x0_),
         segments=4,
         total_km=20,
         height_frac=0.012,
@@ -405,22 +406,22 @@ def build_fig09() -> None:
     d_scaled["total"] = d_agg["priority"]
     d_scaled = d_scaled.sort_values("total", ascending=True).reset_index(drop=True)
 
-    fig = plt.figure(figsize=(13.5, 10.0), facecolor=BG)
+    fig = plt.figure(figsize=(13.5, 19.0), facecolor=BG)
     gs = fig.add_gridspec(
         2,
         2,
-        height_ratios=[1.0, 1.0],
-        width_ratios=[1.9, 1.0],
-        left=0.012,
-        right=0.995,
-        bottom=0.018,
-        top=0.985,
-        hspace=0.045,
-        wspace=0.02,
+        height_ratios=[11.9, 6.3],
+        width_ratios=[1.06, 1.0],
+        left=0.004,
+        right=0.996,
+        bottom=0.004,
+        top=0.996,
+        hspace=0.075,
+        wspace=0.12,
     )
 
-    # Panel A: left complete (spans both rows)
-    ax_map = fig.add_subplot(gs[:, 0])
+    # Panel A: top, full width
+    ax_map = fig.add_subplot(gs[0, :])
     _clean_ax(ax_map)
     boundary = _boundary_gdf()
     boundary.plot(ax=ax_map, color="#EEF2F0", edgecolor="none", zorder=0)
@@ -440,7 +441,7 @@ def build_fig09() -> None:
         )
 
     k = 6
-    classifier = mapclassify.NaturalBreaks(mahalle["priority_score_0_100"].to_numpy(), k=k)
+    classifier = mapclassify.FisherJenks(mahalle["priority_score_0_100"].to_numpy(), k=k)  # exact Jenks, deterministic
     bins = classifier.bins
     mahalle["jenks_class"] = classifier.yb
     class_colors = [CMAP_PRIORITY(v) for v in np.linspace(0.16, 0.96, k)]
@@ -491,7 +492,7 @@ def build_fig09() -> None:
             [0],
             marker="*",
             linestyle="None",
-            markersize=8.5,
+            markersize=11,
             markerfacecolor="#202B33",
             markeredgecolor="white",
             markeredgewidth=0.4,
@@ -501,8 +502,11 @@ def build_fig09() -> None:
     ax_map.legend(
         handles=patches_map,
         title="Planning priority (Jenks)",
-        title_fontsize=8.6,
-        fontsize=7.6,
+        title_fontsize=11.4,
+        fontsize=10.2,
+        handlelength=2.2,
+        handleheight=1.25,
+        labelspacing=0.55,
         loc="upper left",
         bbox_to_anchor=(0.012, 0.955),
         frameon=True,
@@ -533,8 +537,8 @@ def build_fig09() -> None:
     _add_top10_component_panel(ax_map, mahalle)
     _tag(ax_map, "(a) Mahalle planning priority")
 
-    # Panel B: right top
-    ax_rad = fig.add_subplot(gs[0, 1], projection="polar")
+    # Panel B: bottom left
+    ax_rad = fig.add_subplot(gs[1, 0], projection="polar")
     n = len(d_scaled)
     angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
     width = 2 * np.pi / n * 0.90
@@ -625,10 +629,9 @@ def build_fig09() -> None:
         columnspacing=2.6,
     )
 
-    # Panel C: right bottom
+    # Panel C: bottom right (fills its cell; same height as B)
     ax_div = fig.add_subplot(gs[1, 1])
     ax_div.set_facecolor(BG)
-    ax_div.set_box_aspect(1.22)
     y_pos = np.arange(len(d_scaled))
     social = d_scaled["score_social"].to_numpy(dtype=float)
     physical = d_scaled["score_physical"].to_numpy(dtype=float)
@@ -655,34 +658,18 @@ def build_fig09() -> None:
         labelpad=10,
     )
     ax_div.legend(frameon=False, fontsize=7.8, loc="lower right")
-    # Align panel labels (b) and (c) on the same vertical line in figure coordinates.
-    pos_b = ax_rad.get_position()
-    pos_c = ax_div.get_position()
-    label_x = min(pos_b.x0, pos_c.x0) + 0.002
-    fig.text(
-        label_x,
-        pos_b.y1 - 0.006,
-        "(b) District mean score by component",
-        ha="left",
-        va="top",
-        fontsize=10.8,
-        fontweight="bold",
-        color=INK,
-        zorder=40,
-        bbox=dict(boxstyle="square,pad=0.12", facecolor=BG, edgecolor="none", alpha=0.85),
-    )
-    fig.text(
-        label_x,
-        pos_c.y1 + 0.050,
-        "(c) Heat terms against sensitivity and population",
-        ha="left",
-        va="top",
-        fontsize=10.8,
-        fontweight="bold",
-        color=INK,
-        zorder=40,
-        bbox=dict(boxstyle="square,pad=0.12", facecolor=BG, edgecolor="none", alpha=0.85),
-    )
+    # Titles: (b) and (c) on one baseline above the bottom row; (b) starts at the left edge of the (a) title
+    fig.canvas.draw()
+    rend = fig.canvas.get_renderer()
+    inv = fig.transFigure.inverted()
+    pa = ax_map.get_position()
+    xa = pa.x0 + 0.012 * pa.width
+    bb_b = inv.transform_bbox(ax_rad.get_tightbbox(rend))
+    bb_c = inv.transform_bbox(ax_div.get_tightbbox(rend))
+    y_bc = max(bb_b.y1, bb_c.y1) + 0.004
+    TS = dict(ha="left", va="bottom", fontsize=10.8, fontweight="bold", color=INK, zorder=40)
+    fig.text(xa, y_bc, "(b) District mean score by component", **TS)
+    fig.text(bb_c.x0, y_bc, "(c) Heat terms against sensitivity and population", **TS)
 
     OUT_FIG.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT_FIG, dpi=320, facecolor=BG, bbox_inches="tight", pad_inches=0.01)

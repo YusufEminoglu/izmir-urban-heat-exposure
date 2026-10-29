@@ -22,7 +22,7 @@ from common import *  # noqa
 
 INK, MUTED, GRID = "#1F2933", "#667085", "#E6E8EB"
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10, "axes.edgecolor": "#B9BEC5", "xtick.color": MUTED, "ytick.color": MUTED})
-HEAT = LinearSegmentedColormap.from_list("heat", ["#3D5A80", "#9DB4C0", "#F2F2F0", "#E0A07A", "#A53E2B"])
+HEAT = LinearSegmentedColormap.from_list("heat", ["#667F95", "#BFD7D0", "#F1F3F1", "#E5C8BF", "#B97872", "#8E4F49"])  # the LST colours of Figure 3
 F = 10  # 1 km aggregation
 mask = np.load(CACHE / "province_mask.npy")
 years, cube = load_summer_series()  # 2014-2026; 2025 = analysed composite (v2)
@@ -129,9 +129,9 @@ ax.set_xticks([]); ax.set_yticks([]); ax.view_init(elev=18, azim=-58); ax.set_bo
 ax.set_zlabel("summer", color=MUTED, fontsize=9)
 for s in ("x", "y", "z"):
     getattr(ax, f"{s}axis").pane.set_alpha(0)
-fig.text(0.02, 0.965, "(a) Space-time cube of summer LST, 2014-2026 (1 km voxels)", fontsize=13, fontweight="bold", color=INK)
+fig.text(0.02, 0.965, "(a) Space\u2013time cube of summer LST, 2014\u20132026 (1 km voxels)", fontsize=13, fontweight="bold", color=INK)
 sm = plt.cm.ScalarMappable(cmap=HEAT, norm=plt.Normalize(vmin, vmax))
-cax = fig.add_axes([0.08, 0.425, 0.38, 0.013]); cb = fig.colorbar(sm, cax=cax, orientation="horizontal"); cb.set_label("JJA LST (\u00b0C)", color=MUTED, fontsize=9)
+cax = fig.add_axes([0.08, 0.425, 0.38, 0.013]); cb = fig.colorbar(sm, cax=cax, orientation="horizontal"); cb.set_label("JJA LST (\u00b0C)", color=MUTED, fontsize=9); cb.outline.set_visible(False)
 
 ax2 = fig.add_axes([0.62, 0.45, 0.35, 0.5])
 order = np.lexsort((np.nanmean(Y, 1), gv))
@@ -145,9 +145,9 @@ for k in range(4):
     if m.any():
         ax2.text(-0.6, np.mean(np.where(m)[0]), GNAME[k].replace(" LCZ", "\nLCZ"), ha="right", va="center", fontsize=8, color=INK)
 ax2.set_xlabel("summer (20xx)")
-fig.text(0.55, 0.965, "(b) Space-time heatmap: 1 km cells \u00d7 summers", fontsize=13, fontweight="bold", color=INK)
+fig.text(0.55, 0.965, "(b) Space\u2013time heatmap: 1 km cells \u00d7 summers", fontsize=13, fontweight="bold", color=INK)
 
-ax3 = fig.add_axes([0.07, 0.07, 0.88, 0.28])
+ax3 = fig.add_axes([0.07, 0.115, 0.88, 0.222])
 picks = {}
 for k, colr in zip(range(4), ["#B5432C", "#1E8A5A", "#B98A1E", "#2F6FB0"]):
     idx = np.where(gv == k)[0]
@@ -158,26 +158,36 @@ for k, colr in zip(range(4), ["#B5432C", "#1E8A5A", "#B98A1E", "#2F6FB0"]):
 ax3.set_xticks(years); ax3.grid(True, color=GRID); ax3.set_ylabel("JJA LST (\u00b0C)")
 for s in ("top", "right"):
     ax3.spines[s].set_visible(False)
-ax3.legend(fontsize=8, frameon=False, ncol=2, loc="lower right")
+ax3.legend(fontsize=8.4, frameon=False, ncol=4, loc="upper center", bbox_to_anchor=(0.5, -0.12))
 ax3.text(0.0, 1.06, "(c) Selected-cell series (solid) and group means (dashed)", transform=ax3.transAxes, fontsize=13, fontweight="bold", color=INK)
 for d in [FIGS, Path(r"REPO_ROOT\outputs\figures\paper1\final")]:
     fig.savefig(d / "figS2_spacetime_cube.png", dpi=220)
 plt.close(fig)
 
 # ---------------- Fig S3: trends and emerging hot spots
-fig, axs = plt.subplots(1, 2, figsize=(13, 5.6))
+import geopandas as gpd
+bnd = gpd.read_file(DATA / "izmir_province_boundary_filled.gpkg").to_crs(CRS)
+fig, axs = plt.subplots(1, 2, figsize=(13, 5.9))
+fig.subplots_adjust(left=0.005, right=0.995, bottom=0.01, top=0.92, wspace=0.02)
+UP, NO, DN = "#A65F58", "#E6E8EB", "#667F95"
 ax = axs[0]
 lim = np.nanpercentile(np.abs(sen), 98)
-im = ax.imshow(to_map(sen), extent=ext, cmap=HEAT, vmin=-lim, vmax=lim, interpolation="nearest"); ax.set_axis_off()
-fig.colorbar(im, ax=ax, fraction=0.04, pad=0.01).set_label("Theil-Sen slope (\u00b0C per summer)", color=MUTED)
-ax.set_title("(a) Monotonic change, 2014-2026", loc="left", fontweight="bold", color=INK, fontsize=11)
+im = ax.imshow(to_map(sen), extent=ext, cmap=HEAT, vmin=-lim, vmax=lim, interpolation="nearest")
+cax = ax.inset_axes([0.60, 0.86, 0.34, 0.032])
+cb = fig.colorbar(im, cax=cax, orientation="horizontal"); cb.outline.set_visible(False); cb.ax.tick_params(colors=INK, length=0, labelsize=8)
+cax.set_title("Theil\u2013Sen slope (\u00b0C per summer)", fontsize=8.6, color=MUTED, pad=3)
 ax = axs[1]
 mk = np.where(Pmk < 0.05, np.where(sen > 0, 2, 0), 1).astype(float)
-ax.imshow(to_map(mk), extent=ext, cmap=ListedColormap(["#4F6D8F", "#E6E8EB", "#A53E2B"]), vmin=-0.5, vmax=2.5, interpolation="nearest"); ax.set_axis_off()
-ax.set_title("(b) Mann-Kendall test (p < 0.05)", loc="left", fontweight="bold", color=INK, fontsize=11)
-h = [plt.Rectangle((0, 0), 1, 1, color=cc) for cc in ["#A53E2B", "#E6E8EB", "#4F6D8F"]]
-ax.legend(h, ["significant increase", "no significant trend", "significant decrease"], loc="lower left", fontsize=8, frameon=False)
-fig.tight_layout()
+ax.imshow(to_map(mk), extent=ext, cmap=ListedColormap([DN, NO, UP]), vmin=-0.5, vmax=2.5, interpolation="nearest")
+h = [plt.Rectangle((0, 0), 1, 1, color=cc) for cc in [UP, NO, DN]]
+ax.legend(h, ["significant increase", "no significant trend", "significant decrease"], loc="upper right", bbox_to_anchor=(0.97, 0.95),
+          fontsize=8.6, frameon=False, title="Mann\u2013Kendall, p < 0.05", title_fontsize=8.6)
+for ax in axs:
+    bnd.boundary.plot(ax=ax, color="#2F3D4A", linewidth=0.6)
+    ax.set_xlim(ext[0], ext[1]); ax.set_ylim(ext[2], ext[3]); ax.set_aspect("equal"); ax.set_axis_off()
+ytop = max(a.get_position().y1 for a in axs) + 0.012
+fig.text(axs[0].get_position().x0 + 0.005, ytop, "(a) Monotonic change, 2014\u20132026", fontweight="bold", color=INK, fontsize=11.5, va="bottom")
+fig.text(axs[1].get_position().x0 + 0.005, ytop, "(b) Mann\u2013Kendall trend test", fontweight="bold", color=INK, fontsize=11.5, va="bottom")
 for d in [FIGS, Path(r"REPO_ROOT\outputs\figures\paper1\final")]:
     fig.savefig(d / "figS3_trend_emerging_hotspots.png", dpi=220)
 print("done")

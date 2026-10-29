@@ -1,4 +1,10 @@
-"""New Figure: temporal and morphological consistency of the LCZ-LST evidence."""
+"""Figure 5: temporal, morphological and space-time consistency of the LCZ-LST evidence.
+
+(a) class-mean LST of every summer 2014-2026 with the yearly LCZ differentiation (eta^2_H) and the rank agreement
+    with 2025 (Spearman rho) in a strip above; (b) mean 2025 LST of the built types under the municipal-inventory
+    typology and under the WUDAPT map, with the inventory morphology of each WUDAPT class; (c) emerging hot- and
+    cold-spot patterns of the 2014-2026 cube on the 1 km grid, with the pattern shares by dominant LCZ group inset.
+"""
 import sys
 from pathlib import Path
 import numpy as np
@@ -6,7 +12,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+from matplotlib.colors import ListedColormap, BoundaryNorm
 
 sys.path.insert(0, str(Path(__file__).parent))
 from common import *  # noqa
@@ -19,16 +25,17 @@ plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10, "axes.edgeco
 M = pd.read_csv(TABLES / "lcz_mean_lst_by_year.csv", index_col=0)
 M.columns = M.columns.astype(int)
 E = pd.read_csv(TABLES / "lcz_eta2_by_year.csv")
-T1 = pd.read_csv(TABLES / "lcz_inventory_morphology.csv")
+T1 = pd.read_csv(TABLES / "lcz_inventory_morphology.csv").set_index("lcz")
 T3 = pd.read_csv(TABLES / "inventory_class_lst.csv")
 U = pd.read_csv(TABLES / "lcz_lst_uncertainty.csv").set_index("lcz")
 
-fig = plt.figure(figsize=(13, 14.8))
-gs = fig.add_gridspec(3, 2, hspace=0.36, wspace=0.22, left=0.06, right=0.97, top=0.965, bottom=0.085, height_ratios=[1, 1, 1.05])
+fig = plt.figure(figsize=(13, 16.2))
+top = fig.add_gridspec(1, 2, left=0.075, right=0.845, top=0.955, bottom=0.645, wspace=0.34, width_ratios=[1.25, 1])
+ax_map_box = [0.01, 0.005, 0.98, 0.555]
 
 
-def tag(ax, s, title):
-    ax.text(-0.02, 1.06, f"{s} {title}", transform=ax.transAxes, fontsize=13, fontweight="bold", color=INK, ha="left", va="bottom")
+def tag(ax, s, title, x=-0.02, y=1.03):
+    ax.text(x, y, f"{s} {title}", transform=ax.transAxes, fontsize=13.5, fontweight="bold", color=INK, ha="left", va="bottom")
 
 
 def clean(ax):
@@ -37,117 +44,148 @@ def clean(ax):
         ax.spines[s].set_visible(False)
 
 
-# (a) class trajectories
-ax = fig.add_subplot(gs[0, 0])
+# ---------------- (a) class trajectories + yearly differentiation strip
+sub = top[0, 0].subgridspec(2, 1, height_ratios=[1.15, 3.4], hspace=0.05)
+axs, ax = fig.add_subplot(sub[0]), fig.add_subplot(sub[1])
 years = list(M.columns)
+for x0 in (2025,):
+    for a in (axs, ax):
+        a.axvspan(x0 - 0.45, x0 + 0.45, color="#EEF0F3", zorder=0)
 hi = {3: ("LCZ 3 compact low-rise", C1), 8: ("LCZ 8 large low-rise", C3), 14: ("LCZ D low plants", C2), 11: ("LCZ A dense trees", C4)}
 for k in [6, 9, 12, 13, 15, 16, 17]:
-    ax.plot(years, M.loc[k], color="#C3C8CF", lw=1.2, zorder=1)
+    ax.plot(years, M.loc[k], color="#C3C8CF", lw=1.1, zorder=1)
     if k in (12, 15, 17):
-        ax.text(years[-1] + 0.25, M.loc[k, years[-1]], LCZ_LABEL[k], color=MUTED, fontsize=8, va="center")
+        ax.text(years[-1] + 0.3, M.loc[k, years[-1]], LCZ_LABEL[k], color=MUTED, fontsize=8, va="center")
 for k, (lab, col) in hi.items():
-    ax.plot(years, M.loc[k], color=col, lw=2.2, marker="o", ms=4, zorder=3)
-    ax.text(years[-1] + 0.25, M.loc[k, years[-1]], LCZ_LABEL[k], color=INK, fontsize=9, fontweight="bold", va="center")
-ax.axvline(2018, color=MUTED, lw=1, ls=(0, (3, 3)))
-ax.text(2018.1, ax.get_ylim()[1] if False else M.max().max() + 0.4, "LCZ map epoch", color=MUTED, fontsize=8, va="bottom")
-ax.set_xticks(years); ax.set_xticklabels([str(y)[2:] for y in years])
-ax.set_xlabel("Summer (JJA) composite, 20xx"); ax.set_ylabel("Class-mean LST (\u00b0C)")
-ax.set_xlim(2013.6, 2026.9)
+    ax.plot(years, M.loc[k], color=col, lw=2.2, marker="o", ms=3.8, zorder=3)
+    ax.text(years[-1] + 0.3, M.loc[k, years[-1]], LCZ_LABEL[k], color=col, fontsize=9.5, fontweight="bold", va="center")
+ax.axvline(2018, color=MUTED, lw=1, ls=(0, (3, 3)), zorder=1)
+ax.set_xticks(years); ax.set_xticklabels([str(y)[2:] for y in years], fontsize=9)
+ax.set_xlabel("Summer (JJA), 20xx"); ax.set_ylabel("Class-mean LST (\u00b0C)")
+ax.set_xlim(2013.5, 2027.0)
 clean(ax)
 h = [plt.Line2D([], [], color=c, lw=2.2, marker="o", ms=4, label=l) for l, c in hi.values()]
 h.append(plt.Line2D([], [], color="#C3C8CF", lw=1.2, label="other LCZ types"))
-ax.legend(handles=h, loc="lower left", fontsize=8, frameon=False, ncol=2)
-tag(ax, "(a)", "LCZ thermal ordering, 2014\u20132026")
-
-# (b) eta2 by year
-ax = fig.add_subplot(gs[0, 1])
-cols = ["#9AA5B1" if y != 2018 else C1 for y in E.year]
-cols[list(E.year).index(2025)] = INK  # analysed summer
-ax.bar(E.year, E.eta2, color=cols, width=0.72)
+ax.legend(handles=h, loc="lower left", fontsize=8.2, frameon=False, ncol=2, borderaxespad=0.2)
+yl = ax.get_ylim(); ax.set_ylim(yl[0], yl[1] + 0.8)
+ax.text(2018.15, yl[1] + 0.7, "LCZ map epoch", color=MUTED, fontsize=8, va="top")
+ax.text(2025, yl[1] + 0.7, "analysed", color=MUTED, fontsize=8, va="top", ha="center")
+# strip: eta^2 bars, rho as text
+cols = [C1 if y == 2018 else (INK if y == 2025 else "#9AA5B1") for y in E.year]
+axs.bar(E.year, E.eta2, color=cols, width=0.62, zorder=2)
 for y, e, r in zip(E.year, E.eta2, E.rho_2025_types):
-    ax.text(y, e + 0.006, f"{e:.2f}", ha="center", fontsize=8, color=INK)
-    ax.text(y, 0.012, f"{r:.2f}", ha="center", fontsize=7.5, color="white", rotation=90, va="bottom")
-ax.set_ylim(0, 0.5); ax.set_ylabel("Kruskal\u2013Wallis $\\eta^2_H$ (LCZ)")
-ax.set_xticks(E.year); ax.set_xticklabels([str(y)[2:] for y in E.year]); ax.set_xlabel("Summer, 20xx")
-clean(ax)
-ax.text(0.99, 0.97, "bar label: $\\eta^2_H$   inside bar: Spearman $\\rho$ of\nthe 14 class means with 2025", transform=ax.transAxes,
-        ha="right", va="top", fontsize=8, color=MUTED)
-tag(ax, "(b)", "LCZ differentiation by year")
+    axs.text(y, e + 0.012, f"{e:.2f}", ha="center", va="bottom", fontsize=7.6, color=INK)
+    axs.text(y, -0.075, f"{r:.2f}", ha="center", va="center", fontsize=7.3, color=MUTED)
+axs.set_ylim(-0.13, 0.56); axs.set_xlim(ax.get_xlim())
+axs.set_xticks([]); axs.set_yticks([])
+for s in ("top", "right", "left", "bottom"):
+    axs.spines[s].set_visible(False)
+axs.text(2013.35, 0.20, "LCZ $\\eta^2_H$", fontsize=8.6, color=INK, va="center", ha="right")
+axs.text(2013.35, -0.075, "$\\rho$ with 2025", fontsize=7.8, color=MUTED, va="center", ha="right")
+ax_a_main, ax_a_strip = ax, axs  # titles are placed at figure level at the end
 
-# (c) inventory morphology vs Stewart-Oke ranges
-ax = fig.add_subplot(gs[1, 0])
-SO = {2: (40, 70, 10, 25), 3: (40, 70, 3, 10), 6: (20, 40, 3, 10), 8: (30, 50, 3, 10), 9: (10, 20, 3, 10)}
-colmap = {2: C1, 3: "#D97A5E", 6: C2, 8: C3, 9: C4}
-for k, (b0, b1, h0, h1) in SO.items():
-    ax.add_patch(Rectangle((b0, h0), b1 - b0, h1 - h0, fc=colmap[k], alpha=0.10, ec=colmap[k], lw=0.8, ls="--"))
-for _, r in T1.iterrows():
-    k = int(r.lcz)
-    if k not in colmap:
-        continue
-    x, y = 100 * r.bsf3_med, r.h3_med
-    ax.plot([100 * r.bsf3_q25, 100 * r.bsf3_q75], [y, y], color=colmap[k], lw=1.6)
-    ax.plot([x, x], [r.h3_q25, r.h3_q75], color=colmap[k], lw=1.6)
-    ax.scatter([x], [y], s=60, color=colmap[k], edgecolor="white", lw=1.5, zorder=3)
-    dx, dy, ha = {6: (0.3, 1.7, "left"), 8: (1.8, -1.6, "left"), 9: (1.2, -1.4, "left")}.get(k, (1.2, 0.6, "left"))
-    ax.text(x + dx, y + dy, f"LCZ {k} (n={int(r.n):,})", fontsize=8.5, color=INK, ha=ha)
-ax.set_xlim(0, 75); ax.set_ylim(0, 27)
-ax.set_xlabel("Building surface fraction, 300 m window (%)"); ax.set_ylabel("Footprint-weighted height (m)")
-clean(ax)
-ax.text(0.99, 0.03, "dot: median; bars: interquartile range\ndashed boxes: Stewart & Oke (2012) ranges",
-        transform=ax.transAxes, ha="right", va="bottom", fontsize=8, color=MUTED)
-tag(ax, "(c)", "Municipal building inventory by WUDAPT class")
-
-# (d) LST by inventory class vs WUDAPT class
-ax = fig.add_subplot(gs[1, 1])
-order = ["2", "3", "5", "6", "8", "9"]
-names = {"2": "Compact\nmid-rise", "3": "Compact\nlow-rise", "5": "Open\nmid-rise", "6": "Open\nlow-rise", "8": "Large\nlow-rise", "9": "Sparsely\nbuilt"}
-T3["inv"] = T3["inv"].astype(str)
+# ---------------- (b) built types under the inventory typology vs WUDAPT, with WUDAPT-class morphology
+ax = fig.add_subplot(top[0, 1])
+order = [8, 3, 6, 2, 5, 9]  # rows top to bottom
+names = {2: "Compact mid-rise", 3: "Compact low-rise", 5: "Open mid-rise", 6: "Open low-rise", 8: "Large low-rise", 9: "Sparsely built"}
+T3["inv"] = T3["inv"].astype(int)
 T3 = T3.set_index("inv")
-xs = np.arange(len(order))
-for i, k in enumerate(order):
-    r = T3.loc[k]
-    ax.plot([i - 0.12, i - 0.12], [r.ci_lo, r.ci_hi], color=C1, lw=2)
-    ax.scatter([i - 0.12], [r["mean"]], color=C1, s=55, zorder=3, edgecolor="white", lw=1.2)
-    ax.text(i - 0.12, r.ci_lo - 0.35, f"{int(r.n):,}", ha="center", va="top", fontsize=7.5, color=C1)
-    u = U.loc[int(k)]
-    ax.plot([i + 0.12, i + 0.12], [u.ci_lo, u.ci_hi], color=C2, lw=2)
-    ax.scatter([i + 0.12], [u["mean"]], color=C2, s=55, zorder=3, edgecolor="white", lw=1.2, marker="s")
-    ax.text(i + 0.12, u.ci_lo - 0.35, f"{int(u.n):,}", ha="center", va="top", fontsize=7.5, color=C2)
-ax.axhline(U.loc[11, "mean"], color=C4, lw=1.2, ls=(0, (4, 3)))
-ax.text(len(order) - 0.5, U.loc[11, "mean"] + 0.2, "LCZ A dense trees", color=C4, fontsize=8, ha="right")
-ax.set_xticks(xs); ax.set_xticklabels([names[k] for k in order], fontsize=8.5)
-ax.set_ylabel("Mean summer 2025 LST (\u00b0C), 95% block-bootstrap CI")
-ax.set_ylim(36.5, 51.5)
-clean(ax)
-h = [plt.Line2D([], [], color=C1, marker="o", lw=2, label="inventory-derived class (2025\u201326 buildings)"),
-     plt.Line2D([], [], color=C2, marker="s", lw=2, label="WUDAPT global LCZ (2018)")]
-ax.legend(handles=h, loc="upper left", fontsize=8, frameon=False)
-tag(ax, "(d)", "Thermal ordering under a local typology")
+ref = U.loc[11, "mean"]
+ax.axvline(ref, color=C4, lw=1.3, ls=(0, (4, 3)), zorder=1)
+ax.text(ref + 0.12, len(order) - 0.45, "LCZ A dense trees", color=C4, fontsize=8.2, ha="left", va="center")
 
-# (e)-(f) emerging hot- and cold-spot patterns of the 2014-2026 cube (computed in fig_r2_datacube.py)
-from matplotlib.colors import ListedColormap, BoundaryNorm
-E = np.load(CACHE / "ehsa_1km.npz", allow_pickle=True)
-ORD, COLS, PRES = list(E["order"]), list(E["col"]), E["present"]
-ax = fig.add_subplot(gs[2, 0])
-ax.imshow(E["code"], extent=E["ext"], cmap=ListedColormap(COLS), norm=BoundaryNorm(np.arange(-0.5, len(ORD)), len(ORD)), interpolation="nearest")
+
+def msize(n):
+    return 18 + 22 * np.log10(max(n, 10))
+
+
+for i, k in enumerate(order):
+    y = len(order) - 1 - i
+    r, u = T3.loc[k], U.loc[k]
+    ax.plot([r["mean"], u["mean"]], [y + 0.13, y - 0.13], color="#C3C8CF", lw=1.2, zorder=1)
+    ax.plot([r.ci_lo, r.ci_hi], [y + 0.13] * 2, color=C1, lw=2.2, solid_capstyle="butt", zorder=2)
+    ax.scatter([r["mean"]], [y + 0.13], s=msize(r.n), color=C1, edgecolor="white", lw=1.0, zorder=3)
+    ax.plot([u.ci_lo, u.ci_hi], [y - 0.13] * 2, color=C2, lw=2.2, solid_capstyle="butt", zorder=2)
+    ax.scatter([u["mean"]], [y - 0.13], s=msize(u.n), color=C2, marker="s", edgecolor="white", lw=1.0, zorder=3)
+    # right-hand columns: cell counts and the inventory morphology of the WUDAPT class
+    tr = ax.get_yaxis_transform()
+    ax.text(1.03, y, f"{int(r.n):,}\n{int(u.n):,}", transform=tr, ha="left", va="center", fontsize=7.8, color=INK, linespacing=1.25)
+    mo = T1.loc[k]
+    ax.text(1.24, y - 0.13, f"{100 * mo.bsf3_med:.0f}%, {mo.h3_med:.0f} m", transform=tr, ha="left", va="center", fontsize=7.8, color=C2)
+ax.text(1.03, 1.005, "cells\ninv. / LCZ", transform=ax.transAxes, ha="left", va="bottom", fontsize=7.4, color=MUTED, linespacing=1.0)
+ax.text(1.24, 1.005, "LCZ cells:\nBSF, height", transform=ax.transAxes, ha="left", va="bottom", fontsize=7.4, color=C2, linespacing=1.0)
+ax.set_yticks(range(len(order))); ax.set_yticklabels([names[k] for k in order[::-1]], fontsize=9.5, color=INK)
+ax.set_ylim(-0.6, len(order) - 0.2)
+ax.set_xlim(36.4, 49.4)
+ax.set_xlabel("Mean 2025 LST (\u00b0C), 95% block-bootstrap interval")
+clean(ax); ax.grid(False, axis="y")
+h = [plt.Line2D([], [], color=C1, marker="o", lw=2, label="inventory typology (2025\u201326 buildings)"),
+     plt.Line2D([], [], color=C2, marker="s", lw=2, label="WUDAPT global LCZ (2018)")]
+ax.legend(handles=h, loc="upper center", bbox_to_anchor=(0.55, -0.11), ncol=2, fontsize=8.2, frameon=False)
+ax_b = ax
+
+# ---------------- (c) emerging hot- and cold-spot patterns, full width, shares inset
+Z = np.load(CACHE / "ehsa_1km.npz", allow_pickle=True)
+ORD, COLS, PRES = list(Z["order"]), list(Z["col"]), Z["present"]
+ext = Z["ext"]
+ax = fig.add_axes(ax_map_box)
+ax.imshow(Z["code"], extent=ext, cmap=ListedColormap(COLS), norm=BoundaryNorm(np.arange(-0.5, len(ORD)), len(ORD)), interpolation="nearest")
 ax.set_axis_off()
+TITLE_C = "(c) Emerging hot- and cold-spot patterns of the summer LST cube, 2014\u20132026 (1 km cells)"
 h = [plt.Rectangle((0, 0), 1, 1, color=COLS[i]) for i in range(len(ORD)) if PRES[i]]
-tag(ax, "(e)", "Emerging hot- and cold-spot patterns, 2014\u20132026")
-ax = fig.add_subplot(gs[2, 1])
+ax.legend(h, [o for i, o in enumerate(ORD) if PRES[i]], loc="upper left", bbox_to_anchor=(0.045, 0.90), fontsize=10.6, frameon=False,
+          handlelength=1.7, handleheight=1.3, labelspacing=0.5)
+# north arrow and segmented scale bar in the style of the study-area maps (Figure 2); true scale, extent in metres
+SOFT, SEG = "#91A4AD", ("#D5E0E3", "#A9BCC3")
+x0, y0, seg, hb = ext[0] + 0.72 * (ext[1] - ext[0]), ext[2] + 0.055 * (ext[3] - ext[2]), 10000.0, 1500.0
+for i in range(4):
+    ax.add_patch(plt.Rectangle((x0 + i * seg, y0), seg, hb, facecolor=SEG[i % 2], edgecolor="white", linewidth=0.8, zorder=22))
+for i in range(5):
+    ax.plot([x0 + i * seg] * 2, [y0, y0 - 1300], color=SOFT, lw=0.8, zorder=23)
+    if i % 2 == 0:
+        ax.text(x0 + i * seg, y0 - 2100, f"{10 * i}" + (" km" if i == 4 else ""), ha="center", va="top", fontsize=9.5, color=SOFT, zorder=23)
+ax.annotate("N", xy=(x0 + 4 * seg + 9500, y0 + 12500), xytext=(x0 + 4 * seg + 9500, y0 + 1800), ha="center", va="center", fontsize=12, fontweight="bold",
+            color=SOFT, arrowprops=dict(arrowstyle="-|>", color=SOFT, lw=1.2, shrinkA=0, shrinkB=0), zorder=23)
+# inset: pattern shares by dominant LCZ group (horizontal stacked bars) in the empty north-east of the map
+ins = ax.inset_axes([0.635, 0.45, 0.345, 0.25])
 tab = pd.read_csv(TABLES / "ehsa_by_lcz_group.csv", index_col=0)
+tab = tab.loc[[g for g in ["Built LCZ 2-10", "Low vegetation and bare LCZ C-F", "Trees LCZ A-B", "Water LCZ G"] if g in tab.index]]
 left = np.zeros(len(tab))
 for i, o in enumerate(ORD):
     vv = tab[o].to_numpy() if o in tab else np.zeros(len(tab))
     if vv.sum() == 0:
         continue
-    ax.barh(range(len(tab)), vv, left=left, color=COLS[i], height=0.6, edgecolor="white", linewidth=0.6)
+    ins.barh(range(len(tab)), vv, left=left, color=COLS[i], height=0.66, edgecolor="white", linewidth=0.6)
     left += vv
-ax.set_yticks(range(len(tab))); ax.set_yticklabels([t.replace(" LCZ", "\nLCZ").replace("vegetation and", "vegetation\nand") for t in tab.index], fontsize=9); ax.set_xlim(0, 1)
-ax.legend(h, [o for i, o in enumerate(ORD) if PRES[i]], loc="upper center", bbox_to_anchor=(0.45, -0.13), ncol=3, fontsize=7.8, frameon=False)
-ax.set_xlabel("share of 1 km cells"); ax.grid(True, axis="x", color="#E6E8EB")
-for sp in ("top", "right"):
-    ax.spines[sp].set_visible(False)
-tag(ax, "(f)", "Pattern shares by dominant LCZ group")
+lab = {"Built LCZ 2-10": "Built LCZ 2\u201310", "Low vegetation and bare LCZ C-F": "Low veg./bare C\u2013F",
+       "Trees LCZ A-B": "Trees LCZ A\u2013B", "Water LCZ G": "Water LCZ G"}
+ins.set_yticks(range(len(tab))); ins.set_yticklabels([lab[t] for t in tab.index], fontsize=8.6, color=INK)
+ins.invert_yaxis()
+ins.set_xlim(0, 1); ins.set_xticks([0, 0.25, 0.5, 0.75, 1]); ins.set_xticklabels(["0", "25", "50", "75", "100%"], fontsize=8)
+ins.tick_params(length=0)
+for s in ("top", "right", "left"):
+    ins.spines[s].set_visible(False)
+ins.set_title("Pattern shares by dominant LCZ group", fontsize=9.6, color=INK, loc="left", fontweight="bold")
+
+# ---------------- panel titles aligned at figure level: (a) and (b) on one baseline, (a) and (c) on one left edge,
+# each title starting at the left edge of its panel's labels
+fig.canvas.draw()
+r = fig.canvas.get_renderer()
+inv = fig.transFigure.inverted()
+
+
+def fbox(*axes):
+    bb = [inv.transform_bbox(a.get_tightbbox(r)) for a in axes]
+    return min(b.x0 for b in bb), max(b.y1 for b in bb)
+
+
+xa, ya = fbox(ax_a_main, ax_a_strip)
+xb, yb = fbox(ax_b)
+ytop = max(ya, yb) + 0.006
+TS = dict(fontsize=13.5, fontweight="bold", color=INK, ha="left", va="bottom")
+fig.text(xa, ytop, "(a) LCZ thermal ordering, 2014\u20132026", **TS)
+fig.text(xb, ytop, "(b) Built types under a local typology", **TS)
+fig.text(xa, 0.575, TITLE_C, **TS)
 
 out = Path(r"REPO_ROOT\outputs\figures\paper1\final\fig05_lcz_evidence_consistency.png")
 fig.savefig(out, dpi=300)
