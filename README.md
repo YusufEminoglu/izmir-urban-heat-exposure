@@ -124,6 +124,11 @@ This repository makes the analysis logic inspectable, but it cannot legally or r
 
 The model parameter tables and coefficient summaries released here allow verification of the reported statistics without re-running the full pipeline.
 
+## Related studies
+
+- Eminoğlu, Y., Çelik, H.M. (2026). Diagnosing urban heat vulnerability through multiscale spatial modelling: Evidence from Istanbul for climate-resilient cities. *Sustainable Cities and Society*, 138, 107190. [doi:10.1016/j.scs.2026.107190](https://doi.org/10.1016/j.scs.2026.107190) — a neighbourhood heat-vulnerability index with supervised PCA weighting, MGWR and local clustering.
+- Eminoğlu, Y., Çubukçu, K.M. (2026). Dual friction mapping of urban pedestrian spaces: Integrating street-view visual analytics and Geographically Neural Network Weighted Regression in Izmir, Türkiye. *Sustainable Cities and Society*, 150, 107913. [doi:10.1016/j.scs.2026.107913](https://doi.org/10.1016/j.scs.2026.107913) — street-level physical and thermal pedestrian friction in Izmir, the design-scale complement of the 100 m screening layers here.
+
 ## Authors
 
 | Author | Affiliation | Profiles |

@@ -41,4 +41,29 @@ preferred-citation:
   publisher:
     name: "Elsevier"
   year: 2026
-  notes: "Manuscript under review; DOI pending acceptance."
+  notes: "Manuscript in revision (R1); DOI pending acceptance."
+references:
+  - type: article
+    title: "Diagnosing urban heat vulnerability through multiscale spatial modelling: Evidence from Istanbul for climate-resilient cities"
+    authors:
+      - family-names: "Eminoglu"
+        given-names: "Yusuf"
+      - family-names: "Celik"
+        given-names: "Huseyin Murat"
+    journal: "Sustainable Cities and Society"
+    volume: 138
+    start: 107190
+    year: 2026
+    doi: "10.1016/j.scs.2026.107190"
+  - type: article
+    title: "Dual friction mapping of urban pedestrian spaces: Integrating street-view visual analytics and Geographically Neural Network Weighted Regression in Izmir, Turkiye"
+    authors:
+      - family-names: "Eminoglu"
+        given-names: "Yusuf"
+      - family-names: "Cubukcu"
+        given-names: "Kemal Mert"
+    journal: "Sustainable Cities and Society"
+    volume: 150
+    start: 107913
+    year: 2026
+    doi: "10.1016/j.scs.2026.107913"
