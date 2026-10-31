@@ -1,9 +1,9 @@
-"""Mahalle priority index (R1-6, R2-5): revised morphology term, coverage, and dependence on construction.
+"""Mahalle priority index: revised morphology term, coverage, and dependence on construction.
 
 Revised baseline: M_m = mahalle mean of C_i = sum_k beta_k(i) x~_k(i) over every 100 m cell,
 with kernel-consistent MGWR coefficients (Eq. mahalle_morph). Weights 0.38/0.30/0.22/0.10.
 Alternatives compared with the baseline (Spearman rho; overlap of top 10 / 50 / 80):
-  r0_coef   coefficient-magnitude term of the submitted index (Eq. mahalle_morph_r0)
+  r0_coef   coefficient-magnitude term of the coefficient-only index (Eq. mahalle_morph_r0)
   equal     equal weights
   hev       equal hazard / sensitivity / exposure weights (T, M share the hazard third)
   entropy   entropy weights; pca  first-principal-component weights
@@ -39,7 +39,7 @@ def score(T, M, V, P, w=W0):
 pri = pd.read_csv(PRIORITY_CSV, encoding="utf-8-sig")
 pri = pri[pri.lst_mean.notna()].reset_index(drop=True)
 P_r0 = score(pri.lst_mean, pri.morph_pressure, pri.vulnerable_share, pri.pop_total)
-print("R0 reproduction max abs diff", np.nanmax(np.abs(P_r0 - pri.priority_score_0_100)))
+print("baseline reproduction max abs diff", np.nanmax(np.abs(P_r0 - pri.priority_score_0_100)))
 
 mah = gpd.read_file(MAHALLE).to_crs(CRS)
 g = load_grid()
@@ -91,7 +91,7 @@ pri["P0"] = P0
 base_rank = pd.Series(P0).rank(ascending=False, method="first").to_numpy()
 rho_C_T = stats.spearmanr(pri.C, pri.lst_mean).statistic
 rho_C_r0M = stats.spearmanr(pri.C, pri.morph_pressure).statistic
-print("rho(C, LST)", rho_C_T, "rho(C, R0 M)", rho_C_r0M)
+print("rho(C, LST)", rho_C_T, "rho(C, coefficient-only M)", rho_C_r0M)
 
 alts = {"r0_coef": P_r0}
 C4 = lambda M: np.column_stack([z(pri.lst_mean), z(M), z(pri.vulnerable_share), z(np.log1p(pri.pop_total))])

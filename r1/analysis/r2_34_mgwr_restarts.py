@@ -1,4 +1,4 @@
-"""Restarts of the MGWR bandwidth search on the reported calibration sample (round-5 review): the same data and
+"""Restarts of the MGWR bandwidth search on the reported calibration sample: the same data and
 settings as the reported fit, with the back-fitting search started from a global (4,000) and a local (50) bandwidth
 for every term (r2_28_run_jobs_remote.py, jobs orig_init4000 and orig_init50)."""
 import sys

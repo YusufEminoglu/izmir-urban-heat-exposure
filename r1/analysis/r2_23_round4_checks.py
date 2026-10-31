@@ -1,4 +1,4 @@
-"""Round-4 review checks.
+"""Supplementary checks.
 
 (a) Is the lower 2025 eta^2 an effect of the stricter 10% scene cloud threshold? The 2025 June-August Landsat
     composite is re-exported on the analysis grid with the 30% threshold of the annual cube, and eta^2_H by LCZ is

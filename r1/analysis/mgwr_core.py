@@ -1,6 +1,6 @@
 """MGWR fitting and kernel-consistent local estimation used by the R1 analyses.
 
-`fit_mgwr` reproduces the settings of the submitted model (adaptive bisquare,
+`fit_mgwr` uses the settings of the reported model (adaptive bisquare,
 AICc golden-section back-fitting, standardised y and X, tol 1e-4).
 
 `local_betas` estimates MGWR coefficients at arbitrary locations from a fitted
@@ -116,7 +116,7 @@ def idw(src_xy, src_val, dst_xy, k=12, power=2.0, min_d=1.0):
 
 def load_r0_fit():
     """The reported MGWR as a fit dict. v2 (documented 2025 layers): the r2_28 fit of the calibration sample,
-    outputs/cache/mgwr_orig.npz. The v1 branch below rebuilt the earlier reported fit from its stored sample."""
+    outputs/cache/mgwr_orig.npz. The v1 branch below rebuilds the fit on the alternative layers from its stored sample."""
     from common import CACHE
     _v2 = CACHE / "mgwr_orig.npz"
     if _v2.exists():

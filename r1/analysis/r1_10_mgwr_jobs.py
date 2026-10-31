@@ -1,10 +1,10 @@
 """Run every MGWR fit the revision needs, in parallel worker processes.
 
 Jobs
-  orig            the submitted 4,000-cell sample, refit (reproducibility check)
+  orig            the reported 4,000-cell sample, refit (reproducibility check)
   rep1..rep5      five new stratified 4,000-cell samples (LCZ x 10 km tile), seeds 101-105
   n2000, n6000    sample-size variants of the same design
-  aug             submitted sample + elevation + tree canopy height as local covariates
+  aug             reported sample + elevation + tree canopy height as local covariates
   blk_f0..f4      spatial block cross-validation: 10 km blocks, 5 folds, refit per fold
   rnd_f0..f4      random 5-fold cross-validation, refit per fold
 Each job stores outputs/cache/mgwr_<job>.npz.

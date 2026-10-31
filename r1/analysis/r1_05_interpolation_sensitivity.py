@@ -1,8 +1,8 @@
-"""Sensitivity of the coefficient atlas to the interpolation scheme (R1-2).
+"""Sensitivity of the coefficient atlas to the interpolation scheme.
 
-Coefficients of the submitted MGWR (refit 'orig') are mapped to the 500 m atlas
+Coefficients of the reported MGWR (refit 'orig') are mapped to the 500 m atlas
 grid and to every 100 m cell with eight schemes:
-  IDW p=2 k=12 (R0 baseline); IDW p=1 k=12; IDW p=2 k=6; IDW p=2 k=24;
+  IDW p=2 k=12 (baseline); IDW p=1 k=12; IDW p=2 k=6; IDW p=2 k=24;
   nearest neighbour; linear (Delaunay); LCZ-stratified IDW (built cells from
   built sample points, natural from natural); and kernel-consistent direct
   estimation with the model's own per-covariate bandwidths (no interpolation).
@@ -111,7 +111,7 @@ print(LOO.round(3).to_string())
 T = T.merge(LOO, on="method", how="left")
 T.to_csv(TABLES / "atlas_interpolation_sensitivity.csv", index=False)
 
-# mahalle-level coefficient term (R0 definition) under each scheme at 100 m cells
+# mahalle-level coefficient term (coefficient-only definition) under each scheme at 100 m cells
 mah = gpd.read_file(MAHALLE).to_crs(CRS)
 pri = pd.read_csv(PRIORITY_CSV, encoding="utf-8-sig")
 pri = pri[pri.lst_mean.notna()]

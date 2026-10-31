@@ -22,13 +22,13 @@ for _p in (OUT, VALUES, TABLES, FIGS, CACHE):
     _p.mkdir(parents=True, exist_ok=True)
 
 GRID_CSV = DATA / "paper1_model_grid_100m_v2.csv"  # v2: 2025 Landsat layers from the documented export (r2_27)
-GRID_CSV_V1 = DATA / "paper1_model_grid_100m_complete.csv"  # v1: previously analysed export, completed grid
+GRID_CSV_V1 = DATA / "paper1_model_grid_100m_complete.csv"  # v1: alternative 2025 layers, completed grid
 GRID_CSV_R0 = DATA / "paper1_model_grid_100m_current.csv"
 MGWR_SAMPLE = DATA / "paper1_mgwr_sample_v2.gpkg"  # same 4,000 calibration cells, v2 layers and the v2 reported fit (r2_28)
 MGWR_SAMPLE_V1 = DATA / "mgwr_run" / "paper1_mgwr_sample_true.gpkg"
 IDW_GRID = DATA / "paper1_mgwr_coefficient_grid_idw_v2.gpkg"  # v2 atlas (r2_29)
 IDW_GRID_V1 = DATA / "mgwr_run" / "paper1_mgwr_coefficient_grid_idw.gpkg"
-CUBE_ANNUAL = DATA / "datacubes" / "paper1_landsat_lst_jja_cube_2014_2024.nc"  # stored R0 cube; analyses use load_summer_series()
+CUBE_ANNUAL = DATA / "datacubes" / "paper1_landsat_lst_jja_cube_2014_2024.nc"  # 2014-2024 cube; analyses use load_summer_series()
 CUBE_2025 = ROOT / "pipeline" / "data" / "03_processed" / "paper1" / "datacubes" / "paper1_thermal_covariate_cube_2025.nc"
 CUBE_2025_R0 = DATA / "datacubes" / "paper1_thermal_covariate_cube_2025.nc"
 

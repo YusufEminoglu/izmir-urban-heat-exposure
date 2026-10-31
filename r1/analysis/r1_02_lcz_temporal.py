@@ -1,4 +1,4 @@
-"""Temporal consistency of the LCZ-LST structure across the 13 summers 2014-2026 (R1-5, R2-3): annual cube slices
+"""Temporal consistency of the LCZ-LST structure across the 13 summers 2014-2026: annual cube slices
 (p1_11 method; 2025 and 2026 added in r2_40) with the analysed composite as the 2025 summer.
 
 For every annual JJA LST slice of the cloud-local cube (same 100 m grid):

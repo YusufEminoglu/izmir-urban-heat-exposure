@@ -1,7 +1,6 @@
 """Mahalle aggregates, heat--vulnerability bivariate Moran's I and join quality on the complete grid.
 
-The aggregation reproduces the submitted definitions (checked against the stored table on the
-original grid): cells are assigned to mahalle by centre-in-polygon; T_m mean LST, p90 LST,
+The aggregation (checked against the pipeline table): cells are assigned to mahalle by centre-in-polygon; T_m mean LST, p90 LST,
 hot-cell share above the provincial 90th percentile, hot-exposed population proxy = population x
 hot-cell share; V_m = child + elderly share. Bivariate Moran: esda Moran_BV(mean LST, V) with
 row-standardised Queen contiguity and a 5 km centroid distance band (999 permutations, seed 0).

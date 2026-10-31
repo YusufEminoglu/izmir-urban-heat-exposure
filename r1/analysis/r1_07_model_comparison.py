@@ -1,10 +1,10 @@
-"""Model comparison on a common footing and the residual definitions behind Moran's I (R1-3, R2-1).
+"""Model comparison on a common footing and the residual definitions behind Moran's I.
 
-On the submitted 4,000-cell sample (standardised LST and predictors, KNN k=8
+On the reported 4,000-cell sample (standardised LST and predictors, KNN k=8
 row-standardised W, the matrix used for both estimation and diagnostics):
   * OLS, ML spatial error (SEM) and ML spatial lag (SAR) refit with spreg
   * Moran's I of each residual definition:
-      SEM  u = y - X b (trend residual, contains lambda W u)   [R0 Table 7]
+      SEM  u = y - X b (trend residual, contains lambda W u)
            e = u - lambda W u (spatially filtered innovation)
       SAR  e = y - rho W y - X b (innovation)
            u = y - (I - rho W)^-1 X b (reduced-form prediction residual)

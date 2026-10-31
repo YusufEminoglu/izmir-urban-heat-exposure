@@ -1,6 +1,6 @@
 """Summary values of the reported MGWR on the v2 layers (Table 6, Table S3 and the text), from the r2_28 fit and the
 v2 calibration sample (r2_29): bandwidths, fit, ENP, AICc, coefficient ranges, local condition numbers, local R2 and
-residual Moran's I (8 nearest neighbours, row-standardised, 999 permutations), as in the earlier reported model."""
+residual Moran's I (8 nearest neighbours, row-standardised, 999 permutations)."""
 import sys
 from pathlib import Path
 import numpy as np

@@ -1,4 +1,4 @@
-"""Values requested by the internal five-reviewer stress test (2026-10-28).
+"""Supplementary values quoted in the text and tables.
 
 - grid accounting: province cells, cells with an LCZ class, modelling cells (Table 4 vs Table 5 n)
 - MGWR sample share of the modelling grid
@@ -99,7 +99,7 @@ print(v2)
 v.update(v2)
 write_values("r2_13_review_values", v)
 
-# round-2 requests: separate child and elderly tests, unlisted residents, letter notation, joined-vs-model cells
+# separate child and elderly tests, unlisted residents, letter notation, joined-vs-model cells
 LETTER = {11: "A", 12: "B", 13: "C", 14: "D", 15: "E", 16: "F", 17: "G"}
 lc = lambda c: LETTER.get(int(c), str(int(c)))
 v["mw_ns_pair"] = "; ".join(f"LCZ {lc(a)} and {lc(b)}" for a, b in zip(ns.lcz_a, ns.lcz_b)) or "none"
@@ -124,7 +124,7 @@ v["n_joined_incomplete"] = int((inm & ~compl).sum())
 print({k: v[k] for k in ["mw_ns_pair", "bv_child_i", "bv_child_p", "bv_eld_i", "bv_eld_p", "rho_child_lst", "rho_eld_lst", "rho_child_eld", "pop_unlisted", "n_joined_incomplete"]})
 write_values("r2_13_review_values", v)
 
-# round-3 requests
+# further values
 from libpysal.weights import DistanceBand
 cent = np.column_stack([M2.geometry.centroid.x, M2.geometry.centroid.y])
 wd = DistanceBand(cent, threshold=5000, binary=True, silence_warnings=True); wd.transform = "r"
@@ -146,7 +146,7 @@ v["consensus_names"] = "; ".join(f"{_nm(n)} ({_nm(d)})" for n, d in zip(_c.mahal
 print({k: v[k] for k in ["bv_child_i_d5", "bv_child_p_d5", "bv_eld_i_d5", "bv_eld_p_d5", "lst_res_ranked", "lst_res_unranked", "n_res_unranked", "consensus_in_top80_noalb", "consensus_names"]})
 write_values("r2_13_review_values", v)
 
-# round-3 requests (2): residential-support group tests, FDR-controlled local counts, group-weighted exposure,
+# residential-support group tests, FDR-controlled local counts, group-weighted exposure,
 # built-area-weighted index sensitivity, units resting on few residential cells
 from statsmodels.stats.multitest import multipletests
 for col, nm in [("child_0_14_share", "child"), ("elderly_65_plus_share", "eld")]:

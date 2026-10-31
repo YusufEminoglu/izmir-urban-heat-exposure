@@ -1,7 +1,7 @@
-"""Stability of the MGWR solution across independent samples and sample sizes (R1-1, R1-2, R2-4).
+"""Stability of the MGWR solution across independent samples and sample sizes.
 
-Fits: orig (submitted sample, refit), rep1-rep5 (new stratified 4,000-cell
-samples), n2000, n6000, and aug (submitted sample with elevation and canopy
+Fits: orig (reported sample, refit), rep1-rep5 (new stratified 4,000-cell
+samples), n2000, n6000, and aug (reported sample with elevation and canopy
 height added as local covariates).
 For each fit: bandwidths, R2, ENP, AICc, residual Moran's I (k=8).
 Every fit is evaluated with its own kernel-consistent estimator on the common

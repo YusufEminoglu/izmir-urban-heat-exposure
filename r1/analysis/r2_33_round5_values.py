@@ -1,4 +1,4 @@
-"""Round-5 values: range of LCZ class means and its end classes, population of the ten highest-ranked mahalle,
+"""Values: range of LCZ class means and its end classes, population of the ten highest-ranked mahalle,
 and the consensus units by support in the five independent MGWR samples."""
 import sys
 from pathlib import Path

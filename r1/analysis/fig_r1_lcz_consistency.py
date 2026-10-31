@@ -17,10 +17,12 @@ from matplotlib.colors import ListedColormap, BoundaryNorm
 sys.path.insert(0, str(Path(__file__).parent))
 from common import *  # noqa
 
-INK, MUTED, GRID = "#1F2933", "#667085", "#E6E8EB"
-C1, C2, C3, C4 = "#B5432C", "#2F6FB0", "#B98A1E", "#1E8A5A"
+INK, MUTED, GRID = "#1F2933", "#7A8590", "#E7EBEA"
+# study palette in (a) and (b); (c) keeps its own pattern colours
+C1, C2, C3, C4 = "#A65F58", "#667F95", "#CF9A83", "#5F9C8E"
+STEEL, LINE, HOLD = "#4F6780", "#CBD3D2", "#344150"
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10, "axes.edgecolor": "#B9BEC5", "axes.labelcolor": INK,
-                     "xtick.color": MUTED, "ytick.color": MUTED, "axes.titlecolor": INK})
+                     "xtick.color": "#667085", "ytick.color": "#667085", "axes.titlecolor": INK})
 
 M = pd.read_csv(TABLES / "lcz_mean_lst_by_year.csv", index_col=0)
 M.columns = M.columns.astype(int)
@@ -50,10 +52,10 @@ axs, ax = fig.add_subplot(sub[0]), fig.add_subplot(sub[1])
 years = list(M.columns)
 for x0 in (2025,):
     for a in (axs, ax):
-        a.axvspan(x0 - 0.45, x0 + 0.45, color="#EEF0F3", zorder=0)
+        a.axvspan(x0 - 0.45, x0 + 0.45, color="#F1F3F1", zorder=0)
 hi = {3: ("LCZ 3 compact low-rise", C1), 8: ("LCZ 8 large low-rise", C3), 14: ("LCZ D low plants", C2), 11: ("LCZ A dense trees", C4)}
 for k in [6, 9, 12, 13, 15, 16, 17]:
-    ax.plot(years, M.loc[k], color="#C3C8CF", lw=1.1, zorder=1)
+    ax.plot(years, M.loc[k], color=LINE, lw=1.1, zorder=1)
     if k in (12, 15, 17):
         ax.text(years[-1] + 0.3, M.loc[k, years[-1]], LCZ_LABEL[k], color=MUTED, fontsize=8, va="center")
 for k, (lab, col) in hi.items():
@@ -65,13 +67,13 @@ ax.set_xlabel("Summer (JJA), 20xx"); ax.set_ylabel("Class-mean LST (\u00b0C)")
 ax.set_xlim(2013.5, 2027.0)
 clean(ax)
 h = [plt.Line2D([], [], color=c, lw=2.2, marker="o", ms=4, label=l) for l, c in hi.values()]
-h.append(plt.Line2D([], [], color="#C3C8CF", lw=1.2, label="other LCZ types"))
+h.append(plt.Line2D([], [], color=LINE, lw=1.2, label="other LCZ types"))
 ax.legend(handles=h, loc="lower left", fontsize=8.2, frameon=False, ncol=2, borderaxespad=0.2)
 yl = ax.get_ylim(); ax.set_ylim(yl[0], yl[1] + 0.8)
 ax.text(2018.15, yl[1] + 0.7, "LCZ map epoch", color=MUTED, fontsize=8, va="top")
 ax.text(2025, yl[1] + 0.7, "analysed", color=MUTED, fontsize=8, va="top", ha="center")
 # strip: eta^2 bars, rho as text
-cols = [C1 if y == 2018 else (INK if y == 2025 else "#9AA5B1") for y in E.year]
+cols = [C1 if y == 2018 else (HOLD if y == 2025 else "#B9C7C6") for y in E.year]
 axs.bar(E.year, E.eta2, color=cols, width=0.62, zorder=2)
 for y, e, r in zip(E.year, E.eta2, E.rho_2025_types):
     axs.text(y, e + 0.012, f"{e:.2f}", ha="center", va="bottom", fontsize=7.6, color=INK)
@@ -102,18 +104,18 @@ def msize(n):
 for i, k in enumerate(order):
     y = len(order) - 1 - i
     r, u = T3.loc[k], U.loc[k]
-    ax.plot([r["mean"], u["mean"]], [y + 0.13, y - 0.13], color="#C3C8CF", lw=1.2, zorder=1)
+    ax.plot([r["mean"], u["mean"]], [y + 0.13, y - 0.13], color=LINE, lw=1.2, zorder=1)
     ax.plot([r.ci_lo, r.ci_hi], [y + 0.13] * 2, color=C1, lw=2.2, solid_capstyle="butt", zorder=2)
     ax.scatter([r["mean"]], [y + 0.13], s=msize(r.n), color=C1, edgecolor="white", lw=1.0, zorder=3)
     ax.plot([u.ci_lo, u.ci_hi], [y - 0.13] * 2, color=C2, lw=2.2, solid_capstyle="butt", zorder=2)
     ax.scatter([u["mean"]], [y - 0.13], s=msize(u.n), color=C2, marker="s", edgecolor="white", lw=1.0, zorder=3)
     # right-hand columns: cell counts and the inventory morphology of the WUDAPT class
     tr = ax.get_yaxis_transform()
-    ax.text(1.03, y, f"{int(r.n):,}\n{int(u.n):,}", transform=tr, ha="left", va="center", fontsize=7.8, color=INK, linespacing=1.25)
+    ax.text(1.03, y, f"{int(r.n):,}\n{int(u.n):,}", transform=tr, ha="left", va="center", fontsize=10, color=INK, linespacing=1.25)
     mo = T1.loc[k]
-    ax.text(1.24, y - 0.13, f"{100 * mo.bsf3_med:.0f}%, {mo.h3_med:.0f} m", transform=tr, ha="left", va="center", fontsize=7.8, color=C2)
-ax.text(1.03, 1.005, "cells\ninv. / LCZ", transform=ax.transAxes, ha="left", va="bottom", fontsize=7.4, color=MUTED, linespacing=1.0)
-ax.text(1.24, 1.005, "LCZ cells:\nBSF, height", transform=ax.transAxes, ha="left", va="bottom", fontsize=7.4, color=C2, linespacing=1.0)
+    ax.text(1.27, y - 0.13, f"{100 * mo.bsf3_med:.0f}%, {mo.h3_med:.0f} m", transform=tr, ha="left", va="center", fontsize=10, color=STEEL)
+ax.text(1.03, 1.005, "cells\ninv. / LCZ", transform=ax.transAxes, ha="left", va="bottom", fontsize=9, color=MUTED, linespacing=1.05)
+ax.text(1.27, 1.005, "LCZ cells:\nBSF, height", transform=ax.transAxes, ha="left", va="bottom", fontsize=9, color=STEEL, linespacing=1.05)
 ax.set_yticks(range(len(order))); ax.set_yticklabels([names[k] for k in order[::-1]], fontsize=9.5, color=INK)
 ax.set_ylim(-0.6, len(order) - 0.2)
 ax.set_xlim(36.4, 49.4)

@@ -1,4 +1,4 @@
-"""LCZ-LST statistics with spatial uncertainty and a minimum-support rule (R1-4, R2-3, R2-6).
+"""LCZ-LST statistics with spatial uncertainty and a minimum-support rule.
 
 * Table 4 statistics on every cell with valid LST and LCZ (n = 1,187,870).
 * Spatial block bootstrap (2 km blocks, 2,000 replicates) for class means and

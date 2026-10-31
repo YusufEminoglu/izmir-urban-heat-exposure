@@ -1,4 +1,4 @@
-"""Check the 2018 global LCZ map against the municipal building inventory (R1-5, R2-3).
+"""Check the 2018 global LCZ map against the municipal building inventory.
 
 The Izmir Metropolitan Municipality building inventory (901,609 footprints with
 above-ground floor counts, 2026 extract) provides an independent, local and

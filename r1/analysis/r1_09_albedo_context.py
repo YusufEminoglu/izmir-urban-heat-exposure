@@ -1,4 +1,4 @@
-"""What the positive albedo-LST association represents (R1-7, R2-4).
+"""What the positive albedo-LST association represents.
 
 * albedo by LCZ class and its correlation with NDVI and NDBI
 * within-class standardised partial slopes of LST on albedo, NDVI and NDBI

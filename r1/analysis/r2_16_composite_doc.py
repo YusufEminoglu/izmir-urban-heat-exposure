@@ -1,7 +1,7 @@
-"""Documentation of the June-August 2025 Landsat composite (requested in the internal review):
+"""Documentation of the June-August 2025 Landsat composite:
 scene count by mission, WRS-2 path/row, acquisition dates and local overpass time, and the number of
 clear observations per 100 m cell inside the province (same collection, cloud and QA filters as the
-re-export of r2_05). Also records the version metadata of the global LCZ asset.
+export of r2_05). Also records the version metadata of the global LCZ asset.
 """
 import sys
 from pathlib import Path

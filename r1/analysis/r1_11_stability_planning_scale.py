@@ -1,4 +1,4 @@
-"""Stability of the MGWR outputs at the scales at which they are used (R1-1, R1-2).
+"""Stability of the MGWR outputs at the scales at which they are used.
 
 For every fit (reported model, refit, five new samples, other sizes, augmented),
 kernel-consistent coefficients are computed at a fixed random subsample of 100 m

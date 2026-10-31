@@ -1,7 +1,7 @@
-"""Analysis grid v2: the 2025 Landsat layers from the documented Earth Engine export (round-4 review decision).
+"""Analysis grid v2: the 2025 Landsat layers from the documented Earth Engine export.
 
-The analysed 2025 NDVI, NDBI and EVI of the earlier versions could not be regenerated from their stated recipe
-(r2_01-r2_04, r2_17, r2_25, r2_26). From this version on, LST, NDVI, NDBI, albedo and EVI of every province cell are
+The spectral indices of the alternative 2025 layers could not be traced to a recipe
+(r2_01-r2_04, r2_17, r2_25, r2_26). LST, NDVI, NDBI, albedo and EVI of every province cell are
 the documented June-August 2025 Landsat 8/9 Collection 2 Level-2 composite of r2_05 (scene cloud cover < 10%,
 QA_PIXEL bits 0-5 and QA_RADSAT mask, per-pixel mean; LST = ST_B10 in degrees Celsius), sampled on the analysis grid.
 Cells without a valid composite value (shoreline) take the value of the nearest valid cell.
@@ -10,7 +10,7 @@ with the same finite-difference operator on the 100 m SRTM DEM completed outside
 so that cells next to the province edge use real neighbours.
 
 Writes data/paper1_model_grid_100m_v2.csv (same columns as the complete grid, plus nearest_fill) and keeps the
-previously analysed layers in data/paper1_layers_2025_previous_export.csv for the sensitivity analysis.
+alternative layers in data/paper1_layers_2025_previous_export.csv for the sensitivity analysis.
 """
 import sys
 from pathlib import Path

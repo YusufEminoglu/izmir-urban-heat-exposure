@@ -1,10 +1,10 @@
 """Reported MGWR on the v2 layers: sample columns, local R2 and the 500 m coefficient atlas.
 
 Input: outputs/cache/mgwr_orig.npz (r2_28 remote fit of the 4,000-cell calibration sample on the v2 layers).
-* data/paper1_mgwr_sample_v2.gpkg gains the columns of the earlier reported sample: mgwr_intercept, mgwr_coef_*,
-  mgwr_t_*, mgwr_local_r2, mgwr_cond, mgwr_residual_scaled, mgwr_residual_lst. Local R2 uses the method of the
-  earlier run (adaptive bisquare neighbourhood of k = median predictor bandwidth, weighted 1 - RSS/TSS).
-* data/paper1_mgwr_coefficient_grid_idw_v2.gpkg: the same 500 m atlas points as before, inverse-distance
+* data/paper1_mgwr_sample_v2.gpkg gains the columns of the calibration sample: mgwr_intercept, mgwr_coef_*,
+  mgwr_t_*, mgwr_local_r2, mgwr_cond, mgwr_residual_scaled, mgwr_residual_lst. Local R2 uses the adaptive bisquare
+  neighbourhood of k = median predictor bandwidth, weighted 1 - RSS/TSS.
+* data/paper1_mgwr_coefficient_grid_idw_v2.gpkg: the 500 m atlas points, inverse-distance
   interpolated (12 neighbours, power 2) from the calibration cells; dominant driver = largest absolute coefficient.
 """
 import sys

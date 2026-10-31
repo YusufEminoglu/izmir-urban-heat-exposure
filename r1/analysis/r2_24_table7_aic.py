@@ -1,8 +1,8 @@
 """Table 7 information criteria from one definition: AIC = -2 logL + 2k with k = coefficients + error variance
 (+ lambda/rho), the parameter counts printed in Table 7, and AICc = AIC + 2k(k+1)/(n-k-1).
 
-Rewrites the aic/aicc columns of results table model_comparison_common.csv (the aic column previously carried
-spreg's AIC, which counts one parameter fewer) and the Table 7 values, so that table, note and deposit agree.
+Rewrites the aic/aicc columns of results table model_comparison_common.csv (spreg's own AIC counts
+one parameter fewer) and the Table 7 values, so that table, note and deposit agree.
 """
 import sys
 from pathlib import Path

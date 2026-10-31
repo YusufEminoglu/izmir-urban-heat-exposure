@@ -1,4 +1,4 @@
-"""Audit: reproduce the R0 numbers the revision builds on before changing anything.
+"""Audit: reproduce the baseline numbers of the processing pipeline.
 
 Checks Table 4 (LCZ-LST), the KW statistic, the MGWR sample representativeness
 against the full 1.19 M-cell grid, the grid geometry, and the mahalle

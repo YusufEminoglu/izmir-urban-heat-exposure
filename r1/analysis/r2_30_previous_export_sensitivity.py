@@ -1,9 +1,8 @@
-"""Sensitivity of the results to the source of the 2025 spectral layers (round-4 decision, v2).
+"""Sensitivity of the results to the source of the 2025 spectral layers.
 
-The analysis now uses the documented Earth Engine composite (r2_27). The previously analysed export, whose NDVI, NDBI
-and EVI could not be regenerated from their recipe, is kept as a sensitivity case. This script collects the
-corresponding results of the earlier, fully computed version of the analysis (outputs/v1_values, v1_tables: same
-code, same settings, previous layers) and compares them with the current ones: layer agreement, LCZ effect size,
+The analysis uses the documented Earth Engine composite (r2_27). The alternative 2025 layers, whose NDVI, NDBI
+and EVI could not be traced to a recipe, are kept as a sensitivity case. This script collects the results computed
+with them (outputs/v1_values, v1_tables: same code, same settings) and compares them with the reported ones: layer agreement, LCZ effect size,
 OLS fit and standardised surface coefficients, MGWR bandwidths and fit, the mahalle surface heat term and the index.
 """
 import sys

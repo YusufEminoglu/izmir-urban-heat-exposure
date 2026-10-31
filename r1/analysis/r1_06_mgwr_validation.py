@@ -1,12 +1,12 @@
-"""Out-of-sample performance of the MGWR and the global benchmarks (R2-2, R1-1, R1-3).
+"""Out-of-sample performance of the MGWR and the global benchmarks.
 
-A. Spatial block cross-validation: 10 km blocks of the submitted sample are
+A. Spatial block cross-validation: 10 km blocks of the reported sample are
    split into five folds; MGWR is re-calibrated on four folds (bandwidths
    re-selected) and predicts the held-out fold with its kernel-consistent
    estimator. Two test sets per fold: the held-out sample cells, and every
    100 m cell of the full grid that lies in the held-out blocks.
 B. Random 5-fold cross-validation of the same sample (re-calibrated per fold).
-C. Hold-out of the full grid: the submitted model (orig) predicts all
+C. Hold-out of the full grid: the reported model (orig) predicts all
    1.18 M cells that were not in its sample, with the kernel-consistent
    estimator and with the published IDW atlas.
 Benchmarks fitted on exactly the same training cells: OLS with the three
@@ -112,7 +112,7 @@ for (scheme, setname, mname), lst in store.items():
 PO = pd.DataFrame(pool)
 print(PO.round(3).to_string())
 
-# C. full-grid hold-out with the submitted model
+# C. full-grid hold-out with the reported model
 fo = load_r0_fit()
 y = g_out[DEP].to_numpy(float)
 pm, B = predict(fo, g_out[["x", "y"]].to_numpy(float), g_out[PREDICTORS].to_numpy(float))
